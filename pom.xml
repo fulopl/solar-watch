@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.codecool</groupId>
-	<artifactId>solar-watch-MVP-java-fulopl</artifactId>
+	<artifactId>solar-watch</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>solar-watch-MVP-java-fulopl</name>
+	<name>solar-watch</name>
 	<description>solar-watch-MVP-java-fulopl</description>
 	<properties>
 		<java.version>17</java.version>
