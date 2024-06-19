@@ -2,8 +2,6 @@ package com.codecool.solarwatch.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.List;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record GeocodingResponse(List<GeocodingPlace> geocodingPlaces) {
+public record GeocodingPlace(String name, float lat, float lon, String country) {
 }
