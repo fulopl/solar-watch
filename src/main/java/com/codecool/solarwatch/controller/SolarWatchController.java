@@ -1,8 +1,6 @@
 package com.codecool.solarwatch.controller;
 
-import com.codecool.solarwatch.model.GeocodingPlace;
-import com.codecool.solarwatch.model.SunRiseSunSetReport;
-import com.codecool.solarwatch.model.SunRiseSunSetResult;
+import com.codecool.solarwatch.model.*;
 import com.codecool.solarwatch.service.GeocodingService;
 import com.codecool.solarwatch.service.SunriseSunsetService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,41 +24,44 @@ public class SolarWatchController {
             , @RequestParam(defaultValue = "Budapest") String city) {
         if (date == null) date = LocalDate.now();
 
-        GeocodingPlace geocodingPlace;
+        City place;
         try {
-            geocodingPlace = geocodingService.getGeocodingPlace(city);
+            place = geocodingService.getGeocodingPlace(city);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new InvalidLocationException();
         } catch (NullPointerException e) {
             throw new ThirdPartyServiceException();
         }
 
-        SunRiseSunSetResult sunRiseSunSetResult;
+        SunRiseSunSetTime sunRiseSunSetTime;
         try {
-            sunRiseSunSetResult = sunriseSunsetService
-                    .getSunriseSunsetReport(geocodingPlace.lat(), geocodingPlace.lon(), date);
+            sunRiseSunSetTime = sunriseSunsetService
+                    .getSunriseSunsetReport(place.getLatitude(), place.getLongitude(), date, place.getId());
         } catch (NullPointerException e) {
             throw new ThirdPartyServiceException();
         }
         return new SunRiseSunSetReport(
-                geocodingPlace.name(),
-                geocodingPlace.country(),
+                place.getName(),
+                place.getState(),
+                place.getCountry(),
                 date,
-                sunRiseSunSetResult.sunrise(),
-                sunRiseSunSetResult.sunset()
+                sunRiseSunSetTime.getSunRise(),
+                sunRiseSunSetTime.getSunSet()
         );
     }
 
     @GetMapping("/current")
     public SunRiseSunSetReport getCurrent() {
-        SunRiseSunSetResult sunRiseSunSetResult = sunriseSunsetService
-                .getSunriseSunsetReport(47.00F, 19.00F, LocalDate.now());
+        SunRiseSunSetTime sunRiseSunSetTime = sunriseSunsetService
+                .getSunriseSunsetReport(47.00F, 19.00F, LocalDate.now(), 1);
         return new SunRiseSunSetReport(
                 "Budapest",
+                "",
                 "HU",
                 LocalDate.now(),
-                sunRiseSunSetResult.sunrise(),
-                sunRiseSunSetResult.sunset());
+                sunRiseSunSetTime.getSunRise(),
+                sunRiseSunSetTime.getSunSet()
+        );
     }
 
 }
