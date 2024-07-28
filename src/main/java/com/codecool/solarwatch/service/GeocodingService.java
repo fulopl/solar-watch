@@ -26,7 +26,6 @@ public class GeocodingService {
 
     public City getGeocodingPlace(String cityName) {
         City city = cityRepository.findByName(cityName).orElse(null);
-        //        .orElse(getPlaceFromOpenWeatherAPI(cityName));
         if (city == null) city = getPlaceFromOpenWeatherAPI(cityName);
         return city;
     }

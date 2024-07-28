@@ -3,5 +3,5 @@ package com.codecool.solarwatch.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record SunRiseSunSetResult(String sunrise, String sunset) {
+public record SunRiseSunSetResults(String sunrise, String sunset) {
 }
