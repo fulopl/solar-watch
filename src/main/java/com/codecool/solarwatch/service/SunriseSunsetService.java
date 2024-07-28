@@ -1,26 +1,28 @@
 package com.codecool.solarwatch.service;
 
-import com.codecool.solarwatch.model.*;
+import com.codecool.solarwatch.model.City;
+import com.codecool.solarwatch.model.SunRiseSunSetResponse;
+import com.codecool.solarwatch.model.SunRiseSunSetResults;
+import com.codecool.solarwatch.model.SunRiseSunSetTime;
 import com.codecool.solarwatch.repository.SunRiseSunSetTimeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
 
 @Service
 public class SunriseSunsetService {
-    private final RestTemplate restTemplate;
+    //private final RestTemplate restTemplate;
     private final SunRiseSunSetTimeRepository sunRiseSunSetTimeRepository;
     private final WebClient webClient;
     private static final Logger logger = LoggerFactory.getLogger(SunRiseSunSetResults.class);
 
     @Autowired
-    public SunriseSunsetService(RestTemplate restTemplate, WebClient webClient, SunRiseSunSetTimeRepository sunRiseSunSetTimeRepository) {
-        this.restTemplate = restTemplate;
+    public SunriseSunsetService(WebClient webClient, SunRiseSunSetTimeRepository sunRiseSunSetTimeRepository) {
+        //this.restTemplate = restTemplate;
         this.webClient = webClient;
         this.sunRiseSunSetTimeRepository = sunRiseSunSetTimeRepository;
     }
@@ -48,14 +50,13 @@ public class SunriseSunsetService {
 
         System.out.println(url);
 
-        SunRiseSunSetResponse sunRiseSunSetResponse = restTemplate.getForObject(url, SunRiseSunSetResponse.class);
-//        SunRiseSunSetResponse sunRiseSunSetResponse =  webClient.get()
-//                .uri(url)
-//                .retrieve()
-//                .bodyToMono(SunRiseSunSetResponse.class)
-//                .block()
-//                ;
+        //SunRiseSunSetResponse sunRiseSunSetResponse = restTemplate.getForObject(url, SunRiseSunSetResponse.class);
+        SunRiseSunSetResponse sunRiseSunSetResponse =  webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(SunRiseSunSetResponse.class)
+                .block();
         logger.info("Response from Open Weather API: {}", sunRiseSunSetResponse);
-        return sunRiseSunSetResponse.sunRiseSunSetResults();
+        return sunRiseSunSetResponse.results();
     }
 }
