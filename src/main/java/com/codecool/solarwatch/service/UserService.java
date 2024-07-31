@@ -33,13 +33,13 @@ public class UserService {
 
     }
 
-    public void addRoleFor(UserEntity user, Role role) {
-        Set<Role> oldRoles = user.roles();
-        Set<Role> copiedRoles = new HashSet<>(oldRoles);
-        copiedRoles.add(role);
-
-        userRepository.updateUserEntity(new UserEntity(
-                user.id(), user.username(), user.password(), Set.copyOf(copiedRoles))
-        );
-    }
+//    public void addRoleFor(UserEntity user, Role role) {
+//        Set<Role> oldRoles = user.roles();
+//        Set<Role> copiedRoles = new HashSet<>(oldRoles);
+//        copiedRoles.add(role);
+//
+//        userRepository.updateUserEntity(new UserEntity(
+//                user.id(), user.username(), user.password(), Set.copyOf(copiedRoles))
+//        );
+//    }
 }
