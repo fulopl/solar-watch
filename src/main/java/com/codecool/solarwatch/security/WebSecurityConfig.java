@@ -35,7 +35,6 @@ public class WebSecurityConfig {
         this.jwtUtils = jwtUtils;
     }
 
-    @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter(jwtUtils, userDetailsService);
     }
@@ -61,12 +60,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()).cors(cors -> cors.disable())
+        http
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("user/**").permitAll()
-                                .requestMatchers("team/**").hasRole("USER")
+                        auth
+                                .requestMatchers("/user/**").permitAll()
+                                .requestMatchers("/sunrise-sunset/**").hasRole("user")
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
 
