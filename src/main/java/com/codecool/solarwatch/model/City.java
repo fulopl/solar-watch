@@ -1,11 +1,12 @@
 package com.codecool.solarwatch.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
-public class City {
+public class City implements Serializable {
 
     @Id
     @GeneratedValue
@@ -15,6 +16,9 @@ public class City {
     private String country;
     private double longitude;
     private double latitude;
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("localDate desc")
+    private List<SunRiseSunSetTime> sunRiseSunSetTimes;
 
     public long getId() {
         return id;
@@ -58,5 +62,18 @@ public class City {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", state='" + state + '\'' +
+                ", country='" + country + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", sunRiseSunSetTimes=" + sunRiseSunSetTimes +
+                '}';
     }
 }
