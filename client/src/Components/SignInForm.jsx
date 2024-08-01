@@ -32,7 +32,7 @@ const UserForm = ({user, disabled, onSave, onCancel}) => {
             </div>
             <div className="buttons">
                 <button type="submit" disabled={disabled}>
-                    {user ? "Update user data" : "Register"}
+                    Sign in
                 </button>
 
                 <button type="button" onClick={onCancel}>

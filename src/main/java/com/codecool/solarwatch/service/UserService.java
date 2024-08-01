@@ -2,6 +2,7 @@ package com.codecool.solarwatch.service;
 
 import com.codecool.solarwatch.model.entity.Role;
 import com.codecool.solarwatch.model.entity.UserEntity;
+import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,10 +18,12 @@ import static java.lang.String.format;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public UserEntity findCurrentUser() {
@@ -28,18 +31,19 @@ public class UserService {
                 .getAuthentication().getPrincipal();
 
         String username = contextUser.getUsername();
-        return userRepository.findUserEntityByUsername(username)
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException(format("could not find user %s in the repository", username)));
 
     }
 
-//    public void addRoleFor(UserEntity user, Role role) {
-//        Set<Role> oldRoles = user.roles();
-//        Set<Role> copiedRoles = new HashSet<>(oldRoles);
-//        copiedRoles.add(role);
-//
-//        userRepository.updateUserEntity(new UserEntity(
-//                user.id(), user.username(), user.password(), Set.copyOf(copiedRoles))
-//        );
-//    }
+    public void addRoleFor(String userName, String roleName) {
+        UserEntity user = userRepository.findByUsername(userName).orElse(null);
+        if (user == null) throw new IllegalArgumentException("No such user."); // TODO ex.handling
+
+        Role role = roleRepository.findByName(roleName);
+        if (role == null) throw new IllegalArgumentException("No such role."); // TODO ex.handling
+
+        user.getRoles().add(role);
+        userRepository.save(user);
+    }
 }

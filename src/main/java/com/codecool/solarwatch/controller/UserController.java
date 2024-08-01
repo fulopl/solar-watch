@@ -6,6 +6,7 @@ import com.codecool.solarwatch.model.payload.UserRequest;
 import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
 import com.codecool.solarwatch.security.jwt.JwtUtils;
+import com.codecool.solarwatch.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,20 +23,22 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    public UserController(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserService userService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
+        this.userService = userService;
     }
 
 
@@ -47,7 +50,7 @@ public class UserController {
         UserEntity user = new UserEntity();
         user.setUsername(signUpRequest.getUsername());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        user.setRoles(Set.of(roleRepository.findByName("user").orElseThrow())); //TODO Exception?
+        user.setRoles(Set.of(roleRepository.findByName("ROLE_USER")));
         userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -65,22 +68,31 @@ public class UserController {
         User userDetails = (User) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), roles));
+        return ResponseEntity.ok(
+                //SecurityContextHolder.getContext().getAuthentication()
+                new JwtResponse(jwt, userDetails.getUsername(), roles)
+                );
     }
 
     @GetMapping("/me")
-    @PreAuthorize("hasRole('user')")
-    public String me() {
-
-        return "Hello ";
-    }
-
-    @GetMapping("/context")
-    public ResponseEntity<?> displayUserContext() {
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> me() {
         User user = (User) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         return ResponseEntity.ok(new JwtResponse(user.getPassword() , user.getUsername(),
                     user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
                 ));
+    }
+
+    @GetMapping("/context")
+    public ResponseEntity<?> displayUserContext() {
+        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
+    }
+
+    @PatchMapping("/addrole")
+    public ResponseEntity<?> addRoleToUser(@RequestParam(name = "user") String userName
+            , @RequestParam(name = "role") String roleName) {
+        userService.addRoleFor(userName, roleName);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

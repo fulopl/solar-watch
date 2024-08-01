@@ -4,6 +4,7 @@ import com.codecool.solarwatch.model.*;
 import com.codecool.solarwatch.service.GeocodingService;
 import com.codecool.solarwatch.service.SunriseSunsetService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/sunrise-sunset-times")
 public class SolarWatchController {
     private final GeocodingService geocodingService;
     private final SunriseSunsetService sunriseSunsetService;
@@ -20,7 +22,7 @@ public class SolarWatchController {
         this.sunriseSunsetService = sunriseSunsetService;
     }
 
-    @GetMapping("/sunrise-sunset")
+    @GetMapping("/")
     public SunRiseSunSetTimeDTO getSunRiseSunSet(@RequestParam(required = false) LocalDate date
             , @RequestParam(name = "city", defaultValue = "Budapest") String cityName) {
 

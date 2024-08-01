@@ -7,6 +7,9 @@ import ErrorPage from "./Pages/ErrorPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainPage from "./Pages/MainPage";
 import RegistrationPage from "./Pages/RegistrationPage";
+import SignInPage from "./Pages/SignInPage";
+import SunriseSunsetTimesPage from "./Pages/SunriseSunsetTimesPage";
+import Token from "./Pages/Token";
 
 const router = createBrowserRouter([
     {
@@ -19,8 +22,20 @@ const router = createBrowserRouter([
                 element: <MainPage />,
             },
             {
+                path: "/sunrise-sunset-times",
+                element: <SunriseSunsetTimesPage />,
+            },
+            {
+                path: "/sign-in",
+                element: <SignInPage />,
+            },
+            {
                 path: "/register",
                 element: <RegistrationPage />,
+            },
+            {
+                path: "/token",
+                element: <Token />,
             }
         ]
     }

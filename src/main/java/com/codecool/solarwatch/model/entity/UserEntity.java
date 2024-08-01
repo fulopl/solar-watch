@@ -1,9 +1,6 @@
 package com.codecool.solarwatch.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.Set;
@@ -14,9 +11,20 @@ public class UserEntity {
     @GeneratedValue
     private Long id;
     private String username;
+
+
     private String password;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    public UserEntity() {}
+
+    public UserEntity(Long id, String username, String password, Set<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
 
     public Long getId() {
         return id;

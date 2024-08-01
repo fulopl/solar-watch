@@ -1,9 +1,6 @@
 package com.codecool.solarwatch.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -14,7 +11,7 @@ public class Role {
     @GeneratedValue
     private Long id;
     private String name;
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserEntity> users;
 
     public Role(String name) {

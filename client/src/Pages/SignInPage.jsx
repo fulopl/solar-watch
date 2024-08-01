@@ -1,47 +1,46 @@
-import UserForm from "../Components/UserForm";
+import SignInForm from "../Components/SignInForm";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import Loading from "../Components/Loading";
 
-const registerUser = (user) => {
-    return fetch("/api/user/register",
+const signIn = (user) => {
+    return fetch("api/user/signin",
         {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(user)
-        }).then(res => res.statusText);
+        }
+    ).then(res => res.json());
 }
 
-const RegistrationPage = () => {
+const SignInPage = () => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
 
-    const handleRegister = (user) => {
+    const handleSignIn = (user) => {
         setLoading(true);
-        registerUser(user).then(() => {
+        signIn(user).then((res) => {
+
                 setLoading(false);
-                alert("Account created.");
+                console.log(res);
+                alert("User signed in.");
+                localStorage.setItem("jwt", res.jwt);
                 navigate("/");
             }
         );
     }
 
-    if (isLoading) {
-        return <Loading/>;
-    }
-
     return (
         <div>
-            <h2>Register</h2>
-            <UserForm
+            <h2>Sign in</h2>
+            <SignInForm
                 disabled={isLoading}
-                onSave={handleRegister}
+                onSave={handleSignIn}
                 onCancel={() => navigate("/")}
             />
         </div>
-    );
+    )
 }
 
-export default RegistrationPage;
+export default SignInPage;
