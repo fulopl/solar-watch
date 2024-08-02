@@ -95,4 +95,10 @@ public class UserController {
         userService.addRoleFor(userName, roleName);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

@@ -46,4 +46,9 @@ public class UserService {
         user.getRoles().add(role);
         userRepository.save(user);
     }
+
+    public void deleteUser(Long id) {
+        if (userRepository.existsById(id)) userRepository.deleteById(id);
+        else throw new IllegalArgumentException("No such user."); // TODO ex.handling
+    }
 }
