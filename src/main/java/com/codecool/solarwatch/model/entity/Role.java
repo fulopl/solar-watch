@@ -2,7 +2,9 @@ package com.codecool.solarwatch.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Role {
@@ -11,8 +13,10 @@ public class Role {
     @GeneratedValue
     private Long id;
     private String name;
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<UserEntity> users;
+    //@ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //private List<UserEntity> users;
+    @ManyToMany(mappedBy = "roles")
+    private Set<UserEntity> users = new HashSet<>();
 
     public Role(String name) {
         this.name = name;

@@ -3,6 +3,7 @@ package com.codecool.solarwatch.controller;
 import com.codecool.solarwatch.model.entity.UserEntity;
 import com.codecool.solarwatch.model.payload.JwtResponse;
 import com.codecool.solarwatch.model.payload.UserRequest;
+import com.codecool.solarwatch.model.payload.UserResponse;
 import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
 import com.codecool.solarwatch.security.jwt.JwtUtils;
@@ -41,6 +42,10 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping
+    public List<UserResponse> getAllUsers() {
+        return userService.getAllUsers();
+    }
 
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody UserRequest signUpRequest) {
@@ -90,13 +95,23 @@ public class UserController {
     }
 
     @PatchMapping("/addrole")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addRoleToUser(@RequestParam(name = "user") String userName
             , @RequestParam(name = "role") String roleName) {
         userService.addRoleFor(userName, roleName);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PatchMapping("/removerole")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> removeRoleFromUser(@RequestParam(name = "user") String userName
+            , @RequestParam(name = "role") String roleName) {
+        userService.removeRoleFrom(userName, roleName);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK).build();

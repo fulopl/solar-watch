@@ -14,18 +14,18 @@ const signIn = (user) => {
     ).then(res => res.json());
 }
 
-const SignInPage = () => {
+const SignInPage = ({setUserContext}) => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
 
     const handleSignIn = (user) => {
         setLoading(true);
         signIn(user).then((res) => {
-
                 setLoading(false);
-                console.log(res);
                 alert("User signed in.");
                 localStorage.setItem("jwt", res.jwt);
+                localStorage.setItem("userName", res.userName);
+                localStorage.setItem("roles", res.roles);
                 navigate("/");
             }
         );

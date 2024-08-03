@@ -1,9 +1,35 @@
 import {Link, Outlet} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 //import "./Layout.css";
 
+const fetchUserContext = (token) => {
+    return fetch("api/user/context",
+        {
+            method: "GET",
+            headers:
+                {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+        }
+    ).then(res => res.json());
+}
+
 const Layout = () => {
+    const [isLoading, setLoading] = useState(true);
+    // const [userName, setUserName] = useState("");
+    // const [authorities, setAuthorities] = useState("");
+
+
+    // useEffect(() => {
+    //     const token = localStorage.getItem("jwt");
+    //     fetchUserContext(token).then(resp => {
+    //         console.log(resp)
+    //         setAuthorities(resp.authorities.map(obj => obj.authority));
+    //         setLoading(false)
+    //     })
+    // }, [localStorage.getItem("jwt")])
 
     return (
         <div className="Layout">
@@ -28,6 +54,13 @@ const Layout = () => {
                     <li>
                         <Link to="/token">Token</Link>
                     </li>
+                    {
+                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
+                            <li>
+                                <Link to="/user-editor">Edit users</Link>
+                            </li>
+                            : <></>
+                    }
                 </ul>
             </nav>
             <Outlet/>

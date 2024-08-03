@@ -10,6 +10,7 @@ import RegistrationPage from "./Pages/RegistrationPage";
 import SignInPage from "./Pages/SignInPage";
 import SunriseSunsetTimesPage from "./Pages/SunriseSunsetTimesPage";
 import Token from "./Pages/Token";
+import UserEditorPage from "./Pages/Editor/UserEditorPage";
 
 const router = createBrowserRouter([
     {
@@ -36,7 +37,11 @@ const router = createBrowserRouter([
             {
                 path: "/token",
                 element: <Token />,
-            }
+            },
+            {
+                path: "/user-editor",
+                element: <UserEditorPage />,
+            },
         ]
     }
 ])
