@@ -38,8 +38,8 @@ public class UserService {
 
     }
 
-    public void addRoleFor(String userName, String roleName) {
-        UserEntity user = userRepository.findByUsername(userName).orElse(null);
+    public void addRoleFor(Long userId, String roleName) {
+        UserEntity user = userRepository.findById(userId).orElse(null);
         if (user == null) throw new IllegalArgumentException("No such user."); // TODO ex.handling
 
         Role role = roleRepository.findByName(roleName);
@@ -49,8 +49,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void removeRoleFrom(String userName, String roleName) {
-        UserEntity user = userRepository.findByUsername(userName).orElse(null);
+    public void removeRoleFrom(Long userId, String roleName) {
+        UserEntity user = userRepository.findById(userId).orElse(null);
         if (user == null) throw new IllegalArgumentException("No such user."); // TODO ex.handling
 
         Role role = roleRepository.findByName(roleName);

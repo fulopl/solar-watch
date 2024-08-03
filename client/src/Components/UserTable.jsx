@@ -19,22 +19,22 @@ const UserTable = ({users, onDelete, onAddAdmin, onRemoveAdmin}) => {
                         <td>{user.userName}</td>
                         <td>
                             {user.roles.includes("ROLE_ADMIN") ?
-                                <button type="button" style={{backgroundColor : "red"}}
-                                        onClick={onRemoveAdmin}>Remove ADMIN role
+                                <button type="button" style={{backgroundColor: "red"}}
+                                        onClick={() => onRemoveAdmin(user.id)}>Remove ADMIN role
                                 </button>
                                 :
-                                <button type="button" style={{backgroundColor : "lime"}}
-                                        onClick={onAddAdmin}>Add ADMIN role
+                                <button type="button" style={{backgroundColor: "lime"}}
+                                        onClick={() => onAddAdmin(user.id)}>Add ADMIN role
                                 </button>
                             }
                         </td>
                         <td>{idToDelete === user.id ?
                             <>
-                                <button type="button" style={{backgroundColor : "red"}}
-                                        onClick={()=> {
+                                <button type="button" style={{backgroundColor: "red"}}
+                                        onClick={() => {
                                             setIdToDelete(null);
                                             onDelete(user.id);
-                                        } }>Confirm delete
+                                        }}>Confirm delete
                                 </button>
                                 <button type="button" onClick={() => setIdToDelete(null)}>
                                     Cancel

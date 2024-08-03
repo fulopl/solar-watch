@@ -96,17 +96,17 @@ public class UserController {
 
     @PatchMapping("/addrole")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> addRoleToUser(@RequestParam(name = "user") String userName
+    public ResponseEntity<?> addRoleToUser(@RequestParam(name = "user") Long userId
             , @RequestParam(name = "role") String roleName) {
-        userService.addRoleFor(userName, roleName);
+        userService.addRoleFor(userId, roleName);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/removerole")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> removeRoleFromUser(@RequestParam(name = "user") String userName
+    public ResponseEntity<?> removeRoleFromUser(@RequestParam(name = "user") Long userId
             , @RequestParam(name = "role") String roleName) {
-        userService.removeRoleFrom(userName, roleName);
+        userService.removeRoleFrom(userId, roleName);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
