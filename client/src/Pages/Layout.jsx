@@ -1,5 +1,6 @@
 import {Link, Outlet} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {logDOM} from "@testing-library/react";
 
 //import "./Layout.css";
 
@@ -17,19 +18,13 @@ const fetchUserContext = (token) => {
 }
 
 const Layout = () => {
-    const [isLoading, setLoading] = useState(true);
     // const [userName, setUserName] = useState("");
     // const [authorities, setAuthorities] = useState("");
+    const [token, setToken] = useState();
 
-
-    // useEffect(() => {
-    //     const token = localStorage.getItem("jwt");
-    //     fetchUserContext(token).then(resp => {
-    //         console.log(resp)
-    //         setAuthorities(resp.authorities.map(obj => obj.authority));
-    //         setLoading(false)
-    //     })
-    // }, [localStorage.getItem("jwt")])
+    useEffect(() => {
+        setToken(localStorage.getItem("jwt"));
+    }, [])
 
     return (
         <div className="Layout">
@@ -41,11 +36,25 @@ const Layout = () => {
                     <li>
                         <Link to="/sunrise-sunset-times">Sunrise & Sunset Times</Link>
                     </li>
-                    <li>
-                        <Link to="/sign-in">
-                            <button type="button">Sign In</button>
-                        </Link>
-                    </li>
+                    {(token !== "null") ?
+                        <li>
+                            <button type="button"
+                                    onClick={() => {
+                                        localStorage.setItem("jwt", null);
+                                        localStorage.setItem("userName", null);
+                                        localStorage.setItem("roles", null);
+                                        window.location.reload();
+                                    }}
+                            >Sign Out
+                            </button>
+                        </li>
+                        :
+                        <li>
+                            <Link to="/sign-in">
+                                <button type="button">Sign In</button>
+                            </Link>
+                        </li>
+                    }
                     <li>
                         <Link to="/register">
                             <button type="button">Register</button>

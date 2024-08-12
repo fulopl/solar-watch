@@ -27,10 +27,10 @@ const SignInPage = ({setUserContext}) => {
                 localStorage.setItem("userName", res.userName);
                 localStorage.setItem("roles", res.roles);
                 navigate("/");
+                //window.location.reload();
             }
         );
     }
-
     return (
         <div>
             <h2>Sign in</h2>

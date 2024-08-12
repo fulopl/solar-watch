@@ -30,7 +30,7 @@ public class GeocodingService {
         return city;
     }
 
-    private City getPlaceFromOpenWeatherAPI(String cityName) throws ArrayIndexOutOfBoundsException, NullPointerException {
+    protected City getPlaceFromOpenWeatherAPI(String cityName) throws ArrayIndexOutOfBoundsException, NullPointerException {
         String url = String.format("http://api.openweathermap.org/geo/1.0/direct"
                 + "?q=%s&limit=2&appid=%s", cityName, API_KEY);
         //GeocodingPlace[] places = restTemplate.getForObject(url, GeocodingPlace[].class);
@@ -41,7 +41,7 @@ public class GeocodingService {
                 .uri(url)
                 .retrieve()
                 .bodyToMono(GeocodingPlace[].class)
-                .block();
+                .block()                ;
         //WebClient end
         logger.info("Response from Open Weather API: {}", places[0]);
         City city = new City();

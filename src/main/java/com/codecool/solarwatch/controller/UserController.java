@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@RequestBody UserRequest loginRequest) {
+    public JwtResponse authenticateUser(@RequestBody UserRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
@@ -73,10 +73,7 @@ public class UserController {
         User userDetails = (User) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        return ResponseEntity.ok(
-                //SecurityContextHolder.getContext().getAuthentication()
-                new JwtResponse(jwt, userDetails.getUsername(), roles)
-                );
+        return new JwtResponse(jwt, userDetails.getUsername(), roles);
     }
 
     @GetMapping("/me")
@@ -84,9 +81,9 @@ public class UserController {
     public ResponseEntity<?> me() {
         User user = (User) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(user.getPassword() , user.getUsername(),
-                    user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
-                ));
+        return ResponseEntity.ok(new JwtResponse(user.getPassword(), user.getUsername(),
+                user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
+        ));
     }
 
     @GetMapping("/context")

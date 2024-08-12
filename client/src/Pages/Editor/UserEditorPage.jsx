@@ -61,6 +61,7 @@ const UserEditorPage = () => {
     const [users, setUsers] = useState([])
 
     useEffect(() => {
+        setLoading(true);
         fetchUsers().then(users => {
             setLoading(false);
             setUsers(users);
@@ -69,30 +70,34 @@ const UserEditorPage = () => {
 
     const handleDelete = (id) => {
         setLoading(true);
-        deleteUser(id).then(() => {
+        deleteUser(id).then((status) => {
             setLoading(false);
-            setUsers(users.filter(user => user.id !== id))
+            if (status === "OK") setUsers(users.filter(user => user.id !== id))
+            else alert(status);
         });
-
     }
 
     const handleAddAdmin = (id) => {
         setLoading(true);
-        addAdmin(id).then(() => {
+        addAdmin(id).then((status) => {
             setLoading(false);
-            const user = users.find(user => user.id === id);
-            user.roles.push("ROLE_ADMIN");
-            setUsers(users);
+            if (status === "OK") {
+                const user = users.find(user => user.id === id);
+                user.roles.push("ROLE_ADMIN");
+                setUsers(users);
+            } else alert(status);
         })
     }
 
     const handleRemoveAdmin = (id) => {
         setLoading(true);
-        removeAdmin(id).then(() => {
+        removeAdmin(id).then((status) => {
             setLoading(false);
-            const user = users.find(user => user.id === id);
-            user.roles.splice(user.roles.indexOf("ROLE_ADMIN"),1);
-            setUsers(users);
+            if (status === "OK") {
+                const user = users.find(user => user.id === id);
+                user.roles.splice(user.roles.indexOf("ROLE_ADMIN"), 1);
+                setUsers(users);
+            } else alert(status);
         })
     }
 
