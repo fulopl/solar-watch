@@ -20,6 +20,13 @@ public class City implements Serializable {
     @OrderBy("localDate desc")
     private List<SunRiseSunSetTime> sunRiseSunSetTimes;
 
+    public City() {
+    }
+
+    public City(String name) {
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }

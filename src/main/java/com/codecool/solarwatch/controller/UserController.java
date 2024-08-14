@@ -100,7 +100,7 @@ public class UserController {
     }
 
     @PatchMapping("/removerole")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> removeRoleFromUser(@RequestParam(name = "user") Long userId
             , @RequestParam(name = "role") String roleName) {
         userService.removeRoleFrom(userId, roleName);

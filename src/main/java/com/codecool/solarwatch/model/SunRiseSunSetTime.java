@@ -17,6 +17,17 @@ public class SunRiseSunSetTime {
     @JoinColumn(name = "cityId2")  // Foreign key will be created with this name
     private City city;
 
+    public SunRiseSunSetTime() {
+    }
+
+    public SunRiseSunSetTime(long id, LocalDate localDate, String sunRise, String sunSet, City city) {
+        this.id = id;
+        this.localDate = localDate;
+        this.sunRise = sunRise;
+        this.sunSet = sunSet;
+        this.city = city;
+    }
+
     public long getId() {
         return id;
     }
