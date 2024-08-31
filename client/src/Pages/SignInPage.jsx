@@ -22,12 +22,21 @@ const SignInPage = ({setUserContext}) => {
         setLoading(true);
         signIn(user).then((res) => {
                 setLoading(false);
-                alert("User signed in.");
-                localStorage.setItem("jwt", res.jwt);
-                localStorage.setItem("userName", res.userName);
-                localStorage.setItem("roles", res.roles);
-                navigate("/");
-                //window.location.reload();
+                if (res.jwt) {
+                    localStorage.setItem("jwt", res.jwt);
+                    localStorage.setItem("userName", res.userName);
+                    localStorage.setItem("roles", res.roles);
+                    alert(`Login success: ${res.userName}`);
+                    navigate("/");
+                    //window.location.reload();
+                }
+                else if (res.error === "Unauthorized") {
+                    alert(`Wrong username or password. Please try again!`);
+                }
+                else {
+                    alert(`An error occurred while processing your request. Please try again later!`);
+                    navigate("/");
+                }
             }
         );
     }
