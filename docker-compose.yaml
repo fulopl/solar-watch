@@ -23,6 +23,8 @@ services:
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - JWT_SECRET=${JWT_SECRET}
+      - SPRING_SQL_INIT_MODE=always
+      - SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION=true
 
 
   frontend:
@@ -35,6 +37,5 @@ services:
       - backend
     ports:
       - "3000:3000"
-    environment:
-      - BACKEND_HOST=backend
+
 
