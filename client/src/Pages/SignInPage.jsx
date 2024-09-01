@@ -28,7 +28,7 @@ const SignInPage = ({setUserContext}) => {
                     localStorage.setItem("roles", res.roles);
                     alert(`Login success: ${res.userName}`);
                     navigate("/");
-                    //window.location.reload();
+                    window.location.reload();
                 }
                 else if (res.error === "Unauthorized") {
                     alert(`Wrong username or password. Please try again!`);
