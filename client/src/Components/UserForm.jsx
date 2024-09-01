@@ -24,6 +24,7 @@ const UserForm = ({user, disabled, onSave, onCancel}) => {
             <div className="control">
                 <label htmlFor="password">Password:</label>
                 <input
+                    type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     name="password"

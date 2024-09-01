@@ -33,6 +33,7 @@ public class UserService {
                 .getAuthentication().getPrincipal();
 
         String username = contextUser.getUsername();
+
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException(format("could not find user %s in the repository", username)));
 
@@ -74,4 +75,5 @@ public class UserService {
           );
         }).toList();
     }
+
 }

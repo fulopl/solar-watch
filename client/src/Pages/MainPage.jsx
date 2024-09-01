@@ -22,7 +22,7 @@ const MainPage = () => {
         const token = localStorage.getItem("jwt");
         fetchUserContext(token).then(resp => {
             setUserContext(resp);
-            console.log(resp)
+            console.log(resp) // TODO: get out
             setLoading(false)
         })
     }, [])
@@ -33,7 +33,9 @@ const MainPage = () => {
 
     return (
         <div>
-            <h1>Welcome {userContext.name}!</h1>
+            <h1>Welcome {userContext.credentials !== "" ? userContext.name
+                : "to Solar Watch MVP. Please log in to use the website"
+            }!</h1>
         </div>
     )
 }

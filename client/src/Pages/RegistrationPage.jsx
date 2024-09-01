@@ -11,7 +11,8 @@ const registerUser = (user) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(user)
-        }).then(res => res.statusText);
+        }).then(res => res)
+
 }
 
 const RegistrationPage = () => {
@@ -20,10 +21,13 @@ const RegistrationPage = () => {
 
     const handleRegister = (user) => {
         setLoading(true);
-        registerUser(user).then(() => {
+        registerUser(user).then((res) => {
                 setLoading(false);
-                alert("Account created.");
-                navigate("/");
+                if (res.ok) {
+                    alert("Account created.\nPlease log in to use!");
+                    navigate("/");
+                }
+                else res.text().then(err => alert(err))
             }
         );
     }

@@ -48,7 +48,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> createUser(@RequestBody UserCredentials signUpRequest) {
+    public void createUser(@RequestBody UserCredentials signUpRequest)
+            throws IllegalArgumentException {
+
+        if (userRepository.existsByUsername(signUpRequest.username())) {
+            throw new IllegalArgumentException("Username already exists.");
+        }
 
         //TODO: check for existing username
 
@@ -57,7 +62,6 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(signUpRequest.password()));
         user.setRoles(Set.of(roleRepository.findByName("ROLE_USER")));
         userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/signin")
