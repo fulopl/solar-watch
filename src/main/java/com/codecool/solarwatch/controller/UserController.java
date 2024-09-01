@@ -2,7 +2,7 @@ package com.codecool.solarwatch.controller;
 
 import com.codecool.solarwatch.model.entity.UserEntity;
 import com.codecool.solarwatch.model.payload.JwtResponse;
-import com.codecool.solarwatch.model.payload.UserRequest;
+import com.codecool.solarwatch.model.payload.UserCredentials;
 import com.codecool.solarwatch.model.payload.UserResponse;
 import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
@@ -48,23 +48,23 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> createUser(@RequestBody UserRequest signUpRequest) {
+    public ResponseEntity<Void> createUser(@RequestBody UserCredentials signUpRequest) {
 
         //TODO: check for existing username
 
         UserEntity user = new UserEntity();
-        user.setUsername(signUpRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setUsername(signUpRequest.username());
+        user.setPassword(passwordEncoder.encode(signUpRequest.password()));
         user.setRoles(Set.of(roleRepository.findByName("ROLE_USER")));
         userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/signin")
-    public JwtResponse authenticateUser(@RequestBody UserRequest loginRequest) {
+    public JwtResponse authenticateUser(@RequestBody UserCredentials loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
