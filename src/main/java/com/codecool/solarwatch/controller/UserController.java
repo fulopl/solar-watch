@@ -55,8 +55,6 @@ public class UserController {
             throw new IllegalArgumentException("Username already exists.");
         }
 
-        //TODO: check for existing username
-
         UserEntity user = new UserEntity();
         user.setUsername(signUpRequest.username());
         user.setPassword(passwordEncoder.encode(signUpRequest.password()));

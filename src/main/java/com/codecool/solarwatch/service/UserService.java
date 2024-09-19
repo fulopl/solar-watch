@@ -41,10 +41,10 @@ public class UserService {
 
     public void addRoleFor(Long userId, String roleName) {
         UserEntity user = userRepository.findById(userId).orElse(null);
-        if (user == null) throw new IllegalArgumentException("No such user."); // TODO ex.handling
+        if (user == null) throw new IllegalArgumentException("No such user.");
 
         Role role = roleRepository.findByName(roleName);
-        if (role == null) throw new IllegalArgumentException("No such role."); // TODO ex.handling
+        if (role == null) throw new IllegalArgumentException("No such role.");
 
         user.getRoles().add(role);
         userRepository.save(user);
@@ -52,10 +52,10 @@ public class UserService {
 
     public void removeRoleFrom(Long userId, String roleName) {
         UserEntity user = userRepository.findById(userId).orElse(null);
-        if (user == null) throw new IllegalArgumentException("No such user."); // TODO ex.handling
+        if (user == null) throw new IllegalArgumentException("No such user.");
 
         Role role = roleRepository.findByName(roleName);
-        if (role == null) throw new IllegalArgumentException("No such role."); // TODO ex.handling
+        if (role == null) throw new IllegalArgumentException("No such role.");
 
         user.getRoles().remove(role);
         userRepository.save(user);
@@ -63,7 +63,7 @@ public class UserService {
 
     public void deleteUser(Long id) {
         if (userRepository.existsById(id)) userRepository.deleteById(id);
-        else throw new IllegalArgumentException("No such user."); // TODO ex.handling
+        else throw new IllegalArgumentException("No such user.");
     }
 
     public List<UserResponse> getAllUsers() {
