@@ -1,5 +1,5 @@
 import SignInForm from "../Components/SignInForm";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 
 const signIn = (user) => {
@@ -31,7 +31,7 @@ const SignInPage = ({setUserContext}) => {
                     window.location.reload();
                 }
                 else if (res.error === "Unauthorized") {
-                    alert(`Wrong username or password. Please try again!`);
+                    alert(`Incorrect username or password. Please try again!`);
                 }
                 else {
                     alert(`An error occurred while processing your request. Please try again later!`);
@@ -48,6 +48,10 @@ const SignInPage = ({setUserContext}) => {
                 onSave={handleSignIn}
                 onCancel={() => navigate("/")}
             />
+            <h2>...or create a new account</h2>
+            <Link to="/register">
+                <button type="button">Register</button>
+            </Link>
         </div>
     )
 }
