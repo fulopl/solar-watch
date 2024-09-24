@@ -51,3 +51,48 @@ nav ul li a:hover {
   background-color: #ddd; /* Add a hover effect */
   color: #000; /* Change text color on hover */
 }
+
+.container-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.textbox-main {
+  text-align: center;
+  background-color: rgba(50,50,100,0.35);
+  border-radius: 20px;
+  padding: 5vh 10vh;
+}
+
+button {
+  background: steelblue;
+  color: white;                   /* Text color */
+  border: none;                   /* Remove default border */
+  padding: 12px 24px;             /* Padding around the text */
+  font-size: 16px;                /* Button font size */
+  border-radius: 30px;            /* Rounded corners */
+  cursor: pointer;                /* Change cursor on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: all 0.3s ease;      /* Smooth transition for hover effects */
+  margin: 3px;
+}
+
+button.green {
+  background: limegreen;
+}
+
+button.red {
+  background: red;
+}
+
+button:hover {
+  background: palevioletred;
+}
+
+button:active {
+  transform: translateY(3px);
+}
+

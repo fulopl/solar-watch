@@ -29,11 +29,9 @@ const SignInPage = ({setUserContext}) => {
                     alert(`Login success: ${res.userName}`);
                     navigate("/");
                     window.location.reload();
-                }
-                else if (res.error === "Unauthorized") {
+                } else if (res.error === "Unauthorized") {
                     alert(`Incorrect username or password. Please try again!`);
-                }
-                else {
+                } else {
                     alert(`An error occurred while processing your request. Please try again later!`);
                     navigate("/");
                 }
@@ -41,17 +39,18 @@ const SignInPage = ({setUserContext}) => {
         );
     }
     return (
-        <div>
-            <h2>Sign in</h2>
-            <SignInForm
-                disabled={isLoading}
-                onSave={handleSignIn}
-                onCancel={() => navigate("/")}
-            />
-            <h2>...or create a new account</h2>
-            <Link to="/register">
-                <button type="button">Register</button>
-            </Link>
+        <div className="container-main">
+            <div className="textbox-main">
+                <h2>Sign in</h2>
+                <SignInForm
+                    disabled={isLoading}
+                    onSave={handleSignIn}
+                />
+                <h2>...or create a new account</h2>
+                <Link to="/register">
+                    <button type="button">Register</button>
+                </Link>
+            </div>
         </div>
     )
 }

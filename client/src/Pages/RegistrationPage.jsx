@@ -33,13 +33,14 @@ const RegistrationPage = () => {
     }
 
     return (
-        <div>
-            <h2>Register</h2>
-            <UserForm
-                disabled={isLoading}
-                onSave={handleRegister}
-                onCancel={() => navigate("/")}
-            />
+        <div className="container-main">
+            <div className="textbox-main">
+                <h2>Register</h2>
+                <UserForm
+                    disabled={isLoading}
+                    onSave={handleRegister}
+                />
+            </div>
         </div>
     );
 }

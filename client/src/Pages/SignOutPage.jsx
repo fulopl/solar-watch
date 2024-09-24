@@ -11,11 +11,13 @@ export default function SignOutPage() {
     }
 
     return <>
-        <div>
-            <h2>You have been signed out.</h2>
-            <button type="button" onClick={() => navigate("/")}>
-                Back to main page!
-            </button>
+        <div className="container-main">
+            <div className="textbox-main">
+                <h2>You have been signed out.</h2>
+                <button type="button" onClick={() => navigate("/")}>
+                    Back to main page!
+                </button>
+            </div>
         </div>
     </>
 }
