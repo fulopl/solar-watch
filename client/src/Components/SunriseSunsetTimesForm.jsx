@@ -13,7 +13,7 @@ const SunriseSunsetTimesForm = ({onSave}) => {
 
     return <>
         <form onSubmit={onSubmit}>
-            Enter date and city!
+            <h3>Please enter date and city!</h3>
             <div>
                 <label htmlFor="date">Date:</label>
                 <input type="text" id="date" name="date"

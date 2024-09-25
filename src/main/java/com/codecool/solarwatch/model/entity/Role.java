@@ -14,9 +14,8 @@ public class Role {
     private Long id;
     private String name;
     //@ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //private List<UserEntity> users;
-    @ManyToMany(mappedBy = "roles")
-    private Set<UserEntity> users = new HashSet<>();
+    //@ManyToMany(mappedBy = "roles")
+    //private Set<UserEntity> users;
 
     public Role(String name) {
         this.name = name;
