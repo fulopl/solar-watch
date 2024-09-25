@@ -37,4 +37,11 @@ public class ControllerAdvice {
     public String noSuchElementHandler(NoSuchElementException ex) {
         return ex.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String illegalArgumentHandler(IllegalArgumentException ex) {
+        return ex.getMessage();
+    }
 }
