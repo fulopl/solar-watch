@@ -35,27 +35,30 @@ const SunriseSunsetTimesPage = () => {
 
     if (showForm) {
         return (
-            <div>
-                <h2>Get sunrise and sunset times for a given day and city!</h2>
-                <SunriseSunsetTimesForm
-                    onSave={handleGetSunriseSunsetTimes}
-                />
+            <div className="container-main">
+                <div className="textbox-main">
+                    <h2>Get sunrise and sunset times for a given day and city!</h2>
+                    <SunriseSunsetTimesForm
+                        onSave={handleGetSunriseSunsetTimes}
+                    />
+                </div>
             </div>
         )
     }
 
-    return <div>
-        <h2>The sunrise and sunset times
-            for {sunriseSunsetResults.city} on {sunriseSunsetResults.date} are:</h2>
-        <ul>
-            <li>Sunrise: {sunriseSunsetResults.sunrise}</li>
-            <li>Sunset: {sunriseSunsetResults.sunset}</li>
-        </ul>
-        <button type="button" onClick={() => setShowForm(true)}>
-            Show another date/city!
-        </button>
-    </div>
-
+    return (
+        <div className="container-main">
+            <div className="textbox-main">
+                <h2>The sunrise and sunset times
+                    for {sunriseSunsetResults.city} on {sunriseSunsetResults.date} are:</h2>
+                    <h3>Sunrise: {sunriseSunsetResults.sunrise}</h3>
+                    <h3>Sunset: {sunriseSunsetResults.sunset}</h3>
+                <button type="button" onClick={() => setShowForm(true)}>
+                    Show another date/city!
+                </button>
+            </div>
+        </div>
+    )
 }
 
 export default SunriseSunsetTimesPage;

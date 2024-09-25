@@ -11,17 +11,18 @@ const UserForm = ({user, disabled, onSave}) => {
     }
 
     return <>
-        <form className="EmployeeForm" onSubmit={handleSubmit}>
-            <div className="control">
+        <form onSubmit={handleSubmit}>
+            <div>
                 <label htmlFor="username">Username:</label>
                 <input
+                    type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     name="username"
                     id="username"
                 />
             </div>
-            <div className="control">
+            <div>
                 <label htmlFor="password">Password:</label>
                 <input
                     type="password"
@@ -31,7 +32,7 @@ const UserForm = ({user, disabled, onSave}) => {
                     id="password"
                 />
             </div>
-            <div className="buttons">
+            <div>
                 <button type="submit" disabled={disabled}>
                     Sign in
                 </button>

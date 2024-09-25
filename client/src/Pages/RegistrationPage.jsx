@@ -35,8 +35,9 @@ const RegistrationPage = () => {
     return (
         <div className="container-main">
             <div className="textbox-main">
-                <h2>Register</h2>
+                <h2>Registration</h2>
                 <UserForm
+                    user={{username: "username"}}
                     disabled={isLoading}
                     onSave={handleRegister}
                 />
