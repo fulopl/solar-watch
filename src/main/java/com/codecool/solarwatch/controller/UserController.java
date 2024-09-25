@@ -43,6 +43,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -50,7 +51,8 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody UserCredentials signUpRequest) {
 
-        //TODO: check for existing username
+        if (userRepository.findByUsername(signUpRequest.username()).isPresent())
+            throw new IllegalArgumentException("Username already in use.");
 
         UserEntity user = new UserEntity();
         user.setUsername(signUpRequest.username());
@@ -93,24 +95,21 @@ public class UserController {
 
     @PatchMapping("/addrole")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> addRoleToUser(@RequestParam(name = "user") Long userId
+    void addRoleToUser(@RequestParam(name = "user") Long userId
             , @RequestParam(name = "role") String roleName) {
         userService.addRoleFor(userId, roleName);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/removerole")
-    //@PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> removeRoleFromUser(@RequestParam(name = "user") Long userId
+    @PreAuthorize("hasRole('ADMIN')")
+    void removeRoleFromUser(@RequestParam(name = "user") Long userId
             , @RequestParam(name = "role") String roleName) {
         userService.removeRoleFrom(userId, roleName);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
