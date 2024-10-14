@@ -11,25 +11,41 @@ const registerUser = (user) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(user)
-        }).then(res => res.statusText);
+        }).then(res => res.text());
 }
 
 const RegistrationPage = () => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [isRegistered, setRegistered] = useState(false);
+    const [isUsernameInUse, setUsernameInUse] = useState(false);
 
     const handleRegister = (user) => {
         setLoading(true);
-        registerUser(user).then(() => {
+        registerUser(user).then(response => {
                 setLoading(false);
-                setRegistered(true);
+                if (response === "Username already in use.") setUsernameInUse(true)
+                else setRegistered(true);
             }
         );
     }
 
     if (isLoading) {
         return <Loading/>;
+    }
+
+    if (isUsernameInUse) {
+        return (
+            <div className="container-main">
+                <div className="textbox-main">
+                    <h2>Username already in use.</h2>
+                    <h2>Please choose a different one!</h2>
+                    <button type="button" onClick={() => setUsernameInUse(false)}>
+                        OK
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     if (isRegistered) {
@@ -39,7 +55,7 @@ const RegistrationPage = () => {
                     <h2>Account created.</h2>
                     <h2>Please sign in!</h2>
                     <button type="button" onClick={() => navigate("/sign-in")}>
-                        Sign in!
+                        OK
                     </button>
                 </div>
             </div>
