@@ -17,13 +17,13 @@ const registerUser = (user) => {
 const RegistrationPage = () => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
+    const [isRegistered, setRegistered] = useState(false);
 
     const handleRegister = (user) => {
         setLoading(true);
         registerUser(user).then(() => {
                 setLoading(false);
-                alert("Account created.");
-                navigate("/");
+                setRegistered(true);
             }
         );
     }
@@ -32,12 +32,26 @@ const RegistrationPage = () => {
         return <Loading/>;
     }
 
+    if (isRegistered) {
+        return (
+            <div className="container-main">
+                <div className="textbox-main">
+                    <h2>Account created.</h2>
+                    <h2>Please sign in!</h2>
+                    <button type="button" onClick={() => navigate("/sign-in")}>
+                        Sign in!
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="container-main">
             <div className="textbox-main">
                 <h2>Registration</h2>
                 <UserForm
-                    user={{username: "username"}}
+                    user={{username: ""}}
                     disabled={isLoading}
                     onSave={handleRegister}
                 />

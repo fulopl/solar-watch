@@ -17,7 +17,7 @@ const UserForm = ({user, disabled, onSave}) => {
                 <input
                     type="text"
                     autoComplete="off"
-                    placeholder="username"
+                    placeholder="enter username here"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     name="username"
@@ -29,6 +29,7 @@ const UserForm = ({user, disabled, onSave}) => {
                 <input
                     type="password"
                     autoComplete="off"
+                    placeholder="enter password here"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     name="password"
