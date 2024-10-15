@@ -1,13 +1,26 @@
-# SolarWatch - a website demonstration app
-
+# SolarWatch - a SpringBoot/React demonstration web app
 
 
 ## What is SolarWatch?
 
-SolarWatch is a simple Spring Boot web application created for practice and demonstration purposes.
+SolarWatch is a webservice where users can query the sunrise and sunset time for a given city. 
 
-![SolarWatch_main.png](./images/SolarWatch_main.png)
+It is a demo project, for practicing full-stack application development with SQL database, external API-s, user management, security etc.
 
+## Built with
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000)](#) 
+[![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](#) [![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=fff)](#)
+[![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?logo=node.js&logoColor=white)](#)
+[![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](#)
+[![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=fff)](#)
+
+[![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)
+  [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff)](#)
+[![Postgres](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white)](#)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](#)
+[![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?logo=intellij-idea&logoColor=white)](#)
+
+![SolarWatch_main.png](./images/SolarWatch_main_67pc.png)
 
 
 ## Main features
@@ -23,12 +36,6 @@ SolarWatch is a simple Spring Boot web application created for practice and demo
 - Selectable UTC or local time (TODO)
 
 ![Solarwatch_SRSS_form_70pc.png](./images/Solarwatch_SRSS_form_70pc.png)
-
-## Technologies
-- Frontend: React (Create React App), Vanilla CSS
-- Backend: Spring Boot with Spring Data JPA and Spring Security
-- Database: PostgreSQL
-- Docker Compose
 
 ## Developer
 - [Levente Fülöp](https://github.com/fulopl)
@@ -58,17 +65,19 @@ To set up the project locally:
 
 ## How to use?
 - You can sign in with one of the existing users by selecting the "Sign in" tab:
-  - Use username "user0" to "user4" or,
-  - the user with admin rights: "admin"
+  - Choose username "user0" to "user4" or log in with the user with admin rights: "admin"
   - The password is always the same as the username (ie. "user0" for user0, "admin" for admin etc.)
 
 ![SolarWatch_signin.png](./images/SolarWatch_signin_60pc.png)
 
-- Or you can register a new user: selecting the "Sign in" tab, and choosing "Register".
-- Then login with the username / password combination given by you in the previous step
-- Users can only use "Sunrise & Sunset Times" feature after signing in.
-- Here you can give a city name and a date to get sunrise and sunset times
-- By leaving the fields empty you will get the sunrise and sunset times for Budapest on the actual day in UTC time
+- Or you can register a new user: 
+  - Select the "Sign in" tab, and choosing "Register".
+  - Then login with the username / password combination given by you in the previous step.
+
+
+- Users can only use the "Sunrise & Sunset Times" feature after signing in.
+Here you can give a city name and a date to get sunrise and sunset times.
+By leaving the fields empty you will get the sunrise and sunset times for Budapest on the actual day in UTC time.
 
 ![Solarwatch_Budapest_times.png](./images/Solarwatch_Budapest_times_70pc.png)
 
