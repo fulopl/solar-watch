@@ -18,7 +18,7 @@ const SunriseSunsetTimesForm = ({onSave}) => {
                 <label htmlFor="date">Date:</label>
                 <input type="text" id="date" name="date"
                        onChange={(e) => setDate(e.target.value)}
-                       placeholder="yyyy-mm-dd"
+                       placeholder="use yyyy-mm-dd format (default is today)"
                        value={date}
                 />
             </div>
@@ -27,7 +27,7 @@ const SunriseSunsetTimesForm = ({onSave}) => {
                 <label htmlFor="city">City:</label>
                 <input type="text" id="city" name="city"
                        onChange={(e) => setCity(e.target.value)}
-                       placeholder="name of city"
+                       placeholder="name of city (default is Budapest)"
                        value={city}
                 />
             </div>
