@@ -13,7 +13,7 @@ const getSunriseSunsetTimes = (date, city) => {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 }
         }
-    )//.then(res => res.json());
+    );
 }
 
 const SunriseSunsetTimesPage = () => {
