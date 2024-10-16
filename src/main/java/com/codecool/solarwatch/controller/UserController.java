@@ -78,19 +78,9 @@ public class UserController {
         return new JwtResponse(jwt, userDetails.getUsername(), roles);
     }
 
-    @GetMapping("/me")
+    @GetMapping("/auth")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> me() {
-        User user = (User) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(user.getPassword(), user.getUsername(),
-                user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
-        ));
-    }
-
-    @GetMapping("/context")
-    public ResponseEntity<?> displayUserContext() {
-        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
+    public void auth() {
     }
 
     @PatchMapping("/addrole")

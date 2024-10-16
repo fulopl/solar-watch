@@ -1,6 +1,8 @@
 package com.codecool.solarwatch.controller;
 
-import com.codecool.solarwatch.model.*;
+import com.codecool.solarwatch.model.City;
+import com.codecool.solarwatch.model.SunRiseSunSetTime;
+import com.codecool.solarwatch.model.SunRiseSunSetTimeDTO;
 import com.codecool.solarwatch.service.GeocodingService;
 import com.codecool.solarwatch.service.SunriseSunsetService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/sunrise-sunset-times")
@@ -52,19 +53,5 @@ public class SolarWatchController {
                 sunRiseSunSetTime.getSunSet()
         );
     }
-
-//    @GetMapping("/current")
-//    public SunRiseSunSetReport getCurrent() {
-//        SunRiseSunSetTime sunRiseSunSetTime = sunriseSunsetService
-//                .getSunriseSunsetTime(47.00F, 19.00F, LocalDate.now(), 1);
-//        return new SunRiseSunSetReport(
-//                "Budapest",
-//                "",
-//                "HU",
-//                LocalDate.now(),
-//                sunRiseSunSetTime.getSunRise(),
-//                sunRiseSunSetTime.getSunSet()
-//        );
-//    }
 
 }
