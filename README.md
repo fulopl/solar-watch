@@ -44,24 +44,27 @@ It is a demo project, for practicing full-stack application development with SQL
 
 ### Prerequisites
 Ensure the following are installed on your computer:
-- Java 17
-- Maven 3.9+
-- Docker Desktop
-- PostgreSQL
-- Node.js and npm (for the frontend)
+- Java Development Kit (JDK) 21 (https://www.oracle.com/java/technologies/downloads/#java21)
+- Maven 3.9+ (https://maven.apache.org/download.cgi)
+- Docker Desktop (https://www.docker.com/products/docker-desktop/)
+- PostgreSQL (https://www.postgresql.org/download/)
+- Node.js and npm (https://nodejs.org/en)
 
 ### Installation and run
 To set up the project locally:
 - Clone the github repo to your computer 
+```sh
+   git clone https://github.com/CodecoolGlobal/solar-watch-MVP-java-fulopl
+   ```
 - Open the project from IntelliJ IDEA
 - Install backend dependencies if needed from the Maven menu
-- Install frontend dependencies by entering "npm install" in the terminal
+- Go to "client" folder and install frontend dependencies by entering "npm install" in the terminal
 - Make sure Docker Desktop is running
-- Run the app by entering "docker compose up" in the terminal
+- Run the app by entering "docker compose up --build" in the terminal
 
 ### Stopping the application
 - Stop all the backend, frontend and database applications by pressing Ctrl+C in the terminal
-- Remove the docker containers by entering "docker compose down"
+- Remove the docker containers by entering "docker compose down" in the terminal
 
 ## How to use?
 - You can sign in with one of the existing users by selecting the "Sign in" tab:
