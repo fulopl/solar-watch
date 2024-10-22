@@ -42,12 +42,16 @@ const Layout = () => {
                         </li>
                         :
                         <li>
-                            <Link to="/sign-in">Sign in</Link>
+                            <Link to="/sign-in">Sign in / Register</Link>
                         </li>
                     }
-                    <li>
-                        <Link to="/token">Token</Link>
-                    </li>
+                    {
+                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
+                            <li>
+                                <Link to="/token">Token</Link>
+                            </li>
+                            : <></>
+                    }
                     {
                         localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
                             <li>

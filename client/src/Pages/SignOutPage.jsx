@@ -15,7 +15,7 @@ export default function SignOutPage() {
             <div className="textbox-main">
                 <h2>You have been signed out.</h2>
                 <button type="button" onClick={() => navigate("/")}>
-                    Back to main page!
+                    Go to main page!
                 </button>
             </div>
         </div>

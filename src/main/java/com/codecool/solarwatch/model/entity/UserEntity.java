@@ -7,13 +7,16 @@ import java.util.Set;
 
 @Entity
 public class UserEntity {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_entity_seq", initialValue = 101, allocationSize = 1)
     private Long id;
+
     private String username;
 
-
     private String password;
+
     //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

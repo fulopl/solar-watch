@@ -1,6 +1,7 @@
 import SignInForm from "../Components/SignInForm";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
+import Loading from "../Components/Loading";
 
 const signIn = (user) => {
     return fetch("api/user/signin",
@@ -26,9 +27,8 @@ const SignInPage = ({setUserContext}) => {
                     localStorage.setItem("jwt", res.jwt);
                     localStorage.setItem("userName", res.userName);
                     localStorage.setItem("roles", res.roles);
-                    alert(`Login success: ${res.userName}`);
-                    navigate("/");
-                    window.location.reload();
+                    localStorage.setItem("enableReload", "true")
+                    navigate("/sign-in-message");
                 } else if (res.error === "Unauthorized") {
                     alert(`Incorrect username or password. Please try again!`);
                 } else {
@@ -38,6 +38,11 @@ const SignInPage = ({setUserContext}) => {
             }
         );
     }
+
+    if (isLoading) {
+        return <Loading/>;
+    }
+
     return (
         <div className="container-main">
             <div className="textbox-main">
