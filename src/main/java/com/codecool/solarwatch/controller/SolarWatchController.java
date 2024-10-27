@@ -52,19 +52,4 @@ public class SolarWatchController {
                 sunRiseSunSetTime.getSunSet()
         );
     }
-
-//    @GetMapping("/current")
-//    public SunRiseSunSetReport getCurrent() {
-//        SunRiseSunSetTime sunRiseSunSetTime = sunriseSunsetService
-//                .getSunriseSunsetTime(47.00F, 19.00F, LocalDate.now(), 1);
-//        return new SunRiseSunSetReport(
-//                "Budapest",
-//                "",
-//                "HU",
-//                LocalDate.now(),
-//                sunRiseSunSetTime.getSunRise(),
-//                sunRiseSunSetTime.getSunSet()
-//        );
-//    }
-
 }

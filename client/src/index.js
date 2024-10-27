@@ -10,7 +10,9 @@ import RegistrationPage from "./Pages/RegistrationPage";
 import SignInPage from "./Pages/SignInPage";
 import SunriseSunsetTimesPage from "./Pages/SunriseSunsetTimesPage";
 import Token from "./Pages/Token";
-import UserEditorPage from "./Pages/Editor/UserEditorPage";
+import UserEditorPage from "./Pages/UserEditorPage";
+import SignOutPage from "./Pages/SignOutPage";
+import SignInMessagePage from "./Pages/SignInMessagePage";
 
 const router = createBrowserRouter([
     {
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
                 element: <SignInPage />,
             },
             {
+                path: "/sign-out",
+                element: <SignOutPage />,
+            },
+            {
                 path: "/register",
                 element: <RegistrationPage />,
             },
@@ -41,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path: "/user-editor",
                 element: <UserEditorPage />,
+            },
+            {
+                path: "/sign-in-message",
+                element: <SignInMessagePage />,
             },
         ]
     }

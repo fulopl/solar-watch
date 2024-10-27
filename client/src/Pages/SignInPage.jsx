@@ -1,6 +1,7 @@
 import SignInForm from "../Components/SignInForm";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
+import Loading from "../Components/Loading";
 
 const signIn = (user) => {
     return fetch("api/user/signin",
@@ -26,28 +27,35 @@ const SignInPage = ({setUserContext}) => {
                     localStorage.setItem("jwt", res.jwt);
                     localStorage.setItem("userName", res.userName);
                     localStorage.setItem("roles", res.roles);
-                    alert(`Login success: ${res.userName}`);
-                    navigate("/");
-                    window.location.reload();
-                }
-                else if (res.error === "Unauthorized") {
-                    alert(`Wrong username or password. Please try again!`);
-                }
-                else {
+                    localStorage.setItem("enableReload", "true")
+                    navigate("/sign-in-message");
+                } else if (res.error === "Unauthorized") {
+                    alert(`Incorrect username or password. Please try again!`);
+                } else {
                     alert(`An error occurred while processing your request. Please try again later!`);
                     navigate("/");
                 }
             }
         );
     }
+
+    if (isLoading) {
+        return <Loading/>;
+    }
+
     return (
-        <div>
-            <h2>Sign in</h2>
-            <SignInForm
-                disabled={isLoading}
-                onSave={handleSignIn}
-                onCancel={() => navigate("/")}
-            />
+        <div className="container-main">
+            <div className="textbox-main">
+                <h2>Sign in</h2>
+                <SignInForm
+                    disabled={isLoading}
+                    onSave={handleSignIn}
+                />
+                <h2>...or create a new account</h2>
+                <Link to="/register">
+                    <button type="button">Register</button>
+                </Link>
+            </div>
         </div>
     )
 }

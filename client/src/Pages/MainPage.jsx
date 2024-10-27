@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import Loading from "../Components/Loading";
 
-const fetchUserContext = (token) => {
-    return fetch("api/user/context",
+const auth = (token) => {
+    return fetch("api/user/auth",
         {
             method: "GET",
             headers:
@@ -11,20 +11,26 @@ const fetchUserContext = (token) => {
                     'Authorization': `Bearer ${token}`
                 }
         }
-    ).then(res => res.json());
+    );
 }
 
 const MainPage = () => {
     const [isLoading, setLoading] = useState(true);
-    const [userContext, setUserContext] = useState("");
+    const [isAuthOk, setAuthOk] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("jwt");
-        fetchUserContext(token).then(resp => {
-            setUserContext(resp);
-            console.log(resp) // TODO: get out
-            setLoading(false)
-        })
+        auth(token)
+            .then(res => {
+                if (!res.ok) throw new Error(res.statusText);
+                setAuthOk(true);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            .finally(()=>{
+                setLoading(false)
+            })
     }, [])
 
     if (isLoading) {
@@ -32,10 +38,15 @@ const MainPage = () => {
     }
 
     return (
-        <div>
-            <h1>Welcome {userContext.credentials !== "" ? userContext.name
-                : "to Solar Watch MVP. Please log in to use the website"
-            }!</h1>
+        <div className="container-main">
+            <div className="textbox-main">
+                <h1>Welcome to SolarWatch!</h1>
+                {
+                    !isAuthOk ?
+                        <h2>Select 'Sign in' to log in with an existing user or register a new one!</h2>
+                        : <h2>You are signed in with: {localStorage.getItem("userName")}</h2>
+                }
+            </div>
         </div>
     )
 }

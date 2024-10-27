@@ -8,8 +8,6 @@ import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
 import com.codecool.solarwatch.security.jwt.JwtUtils;
 import com.codecool.solarwatch.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,6 +41,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -50,9 +49,9 @@ public class UserController {
     @PostMapping("/register")
     public void createUser(@RequestBody UserCredentials signUpRequest)
             throws IllegalArgumentException {
-
+        
         if (userRepository.existsByUsername(signUpRequest.username())) {
-            throw new IllegalArgumentException("Username already exists.");
+            throw new IllegalArgumentException("Username not available.");
         }
 
         UserEntity user = new UserEntity();
@@ -78,41 +77,28 @@ public class UserController {
         return new JwtResponse(jwt, userDetails.getUsername(), roles);
     }
 
-    @GetMapping("/me")
+    @GetMapping("/auth")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> me() {
-        User user = (User) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(user.getPassword(), user.getUsername(),
-                user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
-        ));
-    }
-
-    @GetMapping("/context")
-    public ResponseEntity<?> displayUserContext() {
-        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
+    public void auth() {
     }
 
     @PatchMapping("/addrole")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> addRoleToUser(@RequestParam(name = "user") Long userId
+    void addRoleToUser(@RequestParam(name = "user") Long userId
             , @RequestParam(name = "role") String roleName) {
         userService.addRoleFor(userId, roleName);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/removerole")
-    //@PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> removeRoleFromUser(@RequestParam(name = "user") Long userId
+    @PreAuthorize("hasRole('ADMIN')")
+    void removeRoleFromUser(@RequestParam(name = "user") Long userId
             , @RequestParam(name = "role") String roleName) {
         userService.removeRoleFrom(userId, roleName);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

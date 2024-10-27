@@ -11,23 +11,21 @@ const registerUser = (user) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(user)
-        }).then(res => res)
-
+        }).then(res => res.text());
 }
 
 const RegistrationPage = () => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
+    const [isRegistered, setRegistered] = useState(false);
+    const [isUsernameInUse, setUsernameInUse] = useState(false);
 
     const handleRegister = (user) => {
         setLoading(true);
-        registerUser(user).then((res) => {
+        registerUser(user).then(response => {
                 setLoading(false);
-                if (res.ok) {
-                    alert("Account created.\nPlease log in to use!");
-                    navigate("/");
-                }
-                else res.text().then(err => alert(err))
+                if (response === "Username not available.") setUsernameInUse(true)
+                else setRegistered(true);
             }
         );
     }
@@ -36,14 +34,44 @@ const RegistrationPage = () => {
         return <Loading/>;
     }
 
+    if (isUsernameInUse) {
+        return (
+            <div className="container-main">
+                <div className="textbox-main">
+                    <h2>Username already in use.</h2>
+                    <h2>Please choose a different one!</h2>
+                    <button type="button" onClick={() => setUsernameInUse(false)}>
+                        OK
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    if (isRegistered) {
+        return (
+            <div className="container-main">
+                <div className="textbox-main">
+                    <h2>Account created.</h2>
+                    <h2>Please sign in!</h2>
+                    <button type="button" onClick={() => navigate("/sign-in")}>
+                        OK
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div>
-            <h2>Register</h2>
-            <UserForm
-                disabled={isLoading}
-                onSave={handleRegister}
-                onCancel={() => navigate("/")}
-            />
+        <div className="container-main">
+            <div className="textbox-main">
+                <h2>Registration</h2>
+                <UserForm
+                    user={{username: ""}}
+                    disabled={isLoading}
+                    onSave={handleRegister}
+                />
+            </div>
         </div>
     );
 }

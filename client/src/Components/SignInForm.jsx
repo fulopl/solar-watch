@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const UserForm = ({user, disabled, onSave, onCancel}) => {
+const UserForm = ({user, disabled, onSave}) => {
 
     const [username, setUsername] = useState(user?.username ?? "");
     const [password, setPassword] = useState(user?.password ?? "");
@@ -11,17 +11,18 @@ const UserForm = ({user, disabled, onSave, onCancel}) => {
     }
 
     return <>
-        <form className="EmployeeForm" onSubmit={handleSubmit}>
-            <div className="control">
+        <form onSubmit={handleSubmit}>
+            <div>
                 <label htmlFor="username">Username:</label>
                 <input
+                    type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     name="username"
                     id="username"
                 />
             </div>
-            <div className="control">
+            <div>
                 <label htmlFor="password">Password:</label>
                 <input
                     type="password"
@@ -31,13 +32,9 @@ const UserForm = ({user, disabled, onSave, onCancel}) => {
                     id="password"
                 />
             </div>
-            <div className="buttons">
+            <div>
                 <button type="submit" disabled={disabled}>
                     Sign in
-                </button>
-
-                <button type="button" onClick={onCancel}>
-                    Cancel
                 </button>
             </div>
         </form>
