@@ -8,8 +8,6 @@ import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
 import com.codecool.solarwatch.security.jwt.JwtUtils;
 import com.codecool.solarwatch.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,17 +47,18 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> createUser(@RequestBody UserCredentials signUpRequest) {
-
-        if (userRepository.findByUsername(signUpRequest.username()).isPresent())
-            throw new IllegalArgumentException("Username already in use.");
+    public void createUser(@RequestBody UserCredentials signUpRequest)
+            throws IllegalArgumentException {
+        
+        if (userRepository.existsByUsername(signUpRequest.username())) {
+            throw new IllegalArgumentException("Username not available.");
+        }
 
         UserEntity user = new UserEntity();
         user.setUsername(signUpRequest.username());
         user.setPassword(passwordEncoder.encode(signUpRequest.password()));
         user.setRoles(Set.of(roleRepository.findByName("ROLE_USER")));
         userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/signin")

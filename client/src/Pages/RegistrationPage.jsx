@@ -24,7 +24,7 @@ const RegistrationPage = () => {
         setLoading(true);
         registerUser(user).then(response => {
                 setLoading(false);
-                if (response === "Username already in use.") setUsernameInUse(true)
+                if (response === "Username not available.") setUsernameInUse(true)
                 else setRegistered(true);
             }
         );

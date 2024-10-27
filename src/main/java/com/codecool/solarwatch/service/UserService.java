@@ -30,6 +30,7 @@ public class UserService {
                 .getAuthentication().getPrincipal();
 
         String username = contextUser.getUsername();
+
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("No such user."));
 
@@ -37,10 +38,10 @@ public class UserService {
 
     public void addRoleFor(Long userId, String roleName) {
         UserEntity user = userRepository.findById(userId).orElse(null);
-        if (user == null) throw new NoSuchElementException("No such user.");
+        if (user == null) throw new IllegalArgumentException("No such user.");
 
         Role role = roleRepository.findByName(roleName);
-        if (role == null) throw new NoSuchElementException("No such role.");
+        if (role == null) throw new IllegalArgumentException("No such role.");
 
         user.getRoles().add(role);
         userRepository.save(user);
@@ -48,18 +49,18 @@ public class UserService {
 
     public void removeRoleFrom(Long userId, String roleName) {
         UserEntity user = userRepository.findById(userId).orElse(null);
-        if (user == null) throw new NoSuchElementException("No such user.");
+        if (user == null) throw new IllegalArgumentException("No such user.");
 
         Role role = roleRepository.findByName(roleName);
-        if (role == null) throw new NoSuchElementException("No such role.");
+        if (role == null) throw new IllegalArgumentException("No such role.");
 
-        if (!user.getRoles().remove(role)) throw new NoSuchElementException("No such role with user.");
+        if (!user.getRoles().remove(role)) throw new IllegalArgumentException("No such role with user.");
         userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
         if (userRepository.existsById(id)) userRepository.deleteById(id);
-        else throw new NoSuchElementException("No such user.");
+        else throw new IllegalArgumentException("No such user.");
     }
 
     public List<UserResponse> getAllUsers() {
@@ -71,4 +72,5 @@ public class UserService {
           );
         }).toList();
     }
+
 }
