@@ -18,6 +18,7 @@ const signIn = (user) => {
 const SignInPage = ({setUserContext}) => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     const handleSignIn = (user) => {
         setLoading(true);
@@ -29,11 +30,8 @@ const SignInPage = ({setUserContext}) => {
                     localStorage.setItem("roles", res.roles);
                     localStorage.setItem("enableReload", "true")
                     navigate("/sign-in-message");
-                } else if (res.error === "Unauthorized") {
-                    alert(`Incorrect username or password. Please try again!`);
                 } else {
-                    alert(`An error occurred while processing your request. Please try again later!`);
-                    navigate("/");
+                    setErrorMsg(res.error);
                 }
             }
         );
@@ -41,6 +39,27 @@ const SignInPage = ({setUserContext}) => {
 
     if (isLoading) {
         return <Loading/>;
+    }
+
+    if (errorMsg) {
+        return (
+            <div className="container-main">
+                <div className="textbox-main">
+                    {errorMsg === "Bad credentials" ?
+                        <h2>Incorrect username or password. Please try again!</h2>
+                        :
+                        <div>
+                            <h2>An error occurred while processing your request.</h2>
+                            <h2>(${errorMsg})</h2>
+                            <h2>Please try again later!</h2>
+                        </div>
+                    }
+                    <button type="button" onClick={() => setErrorMsg("")}>
+                        OK
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     return (
