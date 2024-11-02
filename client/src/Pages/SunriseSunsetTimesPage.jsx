@@ -22,6 +22,7 @@ const SunriseSunsetTimesPage = () => {
     const [showForm, setShowForm] = useState(true);
     const [authError, setAuthError] = useState(false);
     const [sunriseSunsetResults, setSunriseSunsetResults] = useState();
+    const [useLocalTime, setUseLocalTime] = useState(false);
 
     const handleGetSunriseSunsetTimes = (date, cityName) => {
         setLoading(true);
@@ -77,8 +78,20 @@ const SunriseSunsetTimesPage = () => {
             <div className="textbox-main">
                 <h2>The sunrise and sunset times
                     for {sunriseSunsetResults.city} on {sunriseSunsetResults.date} are:</h2>
-                <h3>Sunrise: {sunriseSunsetResults.sunrise}</h3>
-                <h3>Sunset: {sunriseSunsetResults.sunset}</h3>
+                <h3>Sunrise: {sunriseSunsetResults.sunrise} ({useLocalTime ? "local time" : "UTC"})</h3>
+                <h3>Sunset: {sunriseSunsetResults.sunset} ({useLocalTime ? "local time" : "UTC"})</h3>
+                <div>
+                    <label htmlFor="time">
+                        <input
+                            type="checkbox"
+                            id="time"
+                            name="time"
+                            checked={useLocalTime}
+                            onChange={() => useLocalTime ? setUseLocalTime(false) : setUseLocalTime(true)}
+                        />
+                        <span class="checkbox-container">Use local time</span>
+                    </label>
+                </div>
                 <button type="button" onClick={() => setShowForm(true)}>
                     Show another date/city!
                 </button>
