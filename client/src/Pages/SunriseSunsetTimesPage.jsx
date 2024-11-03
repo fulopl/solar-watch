@@ -43,6 +43,14 @@ const SunriseSunsetTimesPage = () => {
             })
     }
 
+    const displayTime = (utcTimeStr) => {
+        const currentDateStr = new Date().toISOString().split("T")[0]
+        const utcDate = new Date(`${currentDateStr} ${utcTimeStr} UTC`)
+        return useLocalTime ?
+            `${utcDate.getHours()}:${utcDate.getMinutes()}:${utcDate.getSeconds()} (local time)`
+            :`${utcDate.getUTCHours()}:${utcDate.getUTCMinutes()}:${utcDate.getUTCSeconds()} (UTC)`
+    }
+
     if (isLoading) {
         return <Loading/>;
     }
@@ -78,8 +86,8 @@ const SunriseSunsetTimesPage = () => {
             <div className="textbox-main">
                 <h2>The sunrise and sunset times
                     for {sunriseSunsetResults.city} on {sunriseSunsetResults.date} are:</h2>
-                <h3>Sunrise: {sunriseSunsetResults.sunrise} ({useLocalTime ? "local time" : "UTC"})</h3>
-                <h3>Sunset: {sunriseSunsetResults.sunset} ({useLocalTime ? "local time" : "UTC"})</h3>
+                <h3>Sunrise: {displayTime(sunriseSunsetResults.sunrise)}</h3>
+                <h3>Sunset: {displayTime(sunriseSunsetResults.sunset)}</h3>
                 <div>
                     <label htmlFor="time">
                         <input
@@ -89,7 +97,7 @@ const SunriseSunsetTimesPage = () => {
                             checked={useLocalTime}
                             onChange={() => useLocalTime ? setUseLocalTime(false) : setUseLocalTime(true)}
                         />
-                        <span class="checkbox-container">Use local time</span>
+                        <span class="checkbox-container">Display in local time</span>
                     </label>
                 </div>
                 <button type="button" onClick={() => setShowForm(true)}>
