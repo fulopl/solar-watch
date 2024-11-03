@@ -123,3 +123,56 @@ label {
   font-size: 20px;
 }
 
+/* Hide default checkbox */
+input[type="checkbox"] {
+  display: none;
+}
+
+/* Custom checkbox container */
+.checkbox-container {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 24px;
+  padding-left: 36px;
+  user-select: none;
+}
+
+/* Create a box for the custom checkbox */
+.checkbox-container:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px; /* Rounded corners */
+  background-color: #ccc;
+  transition: background-color 0.3s ease;
+}
+
+/* Checkmark styles */
+.checkbox-container:after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  width: 8px;
+  height: 16px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: scale(0) rotate(45deg);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+/* Show the checkmark and update the background color when checked */
+input[type="checkbox"]:checked + .checkbox-container:before {
+  background-color: #4CAF50;
+}
+
+input[type="checkbox"]:checked + .checkbox-container:after {
+  transform: scale(1) rotate(45deg);
+  opacity: 1;
+}
