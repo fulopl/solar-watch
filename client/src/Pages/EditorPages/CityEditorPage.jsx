@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import Loading from "../../Components/Loading/Loading";
-import UserTable from "../../Components/UserTable";
+import CityTable from "../../Components/CityTable";
 
 const fetchCities = () => {
     return fetch("api/city", {
