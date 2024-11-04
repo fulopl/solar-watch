@@ -1,6 +1,5 @@
 import {Link, Outlet} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {logDOM} from "@testing-library/react";
 
 //import "./Layout.css";
 
@@ -56,6 +55,20 @@ const Layout = () => {
                         localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
                             <li>
                                 <Link to="/user-editor">Edit users</Link>
+                            </li>
+                            : <></>
+                    }
+                    {
+                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
+                            <li>
+                                <Link to="/city-editor">Edit cities</Link>
+                            </li>
+                            : <></>
+                    }
+                    {
+                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
+                            <li>
+                                <Link to="/time-editor">Edit times</Link>
                             </li>
                             : <></>
                     }
