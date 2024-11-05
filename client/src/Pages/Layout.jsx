@@ -35,22 +35,6 @@ const Layout = () => {
                     <li>
                         <Link to="/sunrise-sunset-times">Sunrise & Sunset Times</Link>
                     </li>
-                    {(token !== "null") ?
-                        <li>
-                            <Link to="/sign-out">Sign out</Link>
-                        </li>
-                        :
-                        <li>
-                            <Link to="/sign-in">Sign in / Register</Link>
-                        </li>
-                    }
-                    {
-                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
-                            <li>
-                                <Link to="/token">Token</Link>
-                            </li>
-                            : <></>
-                    }
                     {
                         localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
                             <li>
@@ -71,6 +55,22 @@ const Layout = () => {
                                 <Link to="/time-editor">Edit times</Link>
                             </li>
                             : <></>
+                    }
+                    {
+                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
+                            <li>
+                                <Link to="/token">Token</Link>
+                            </li>
+                            : <></>
+                    }
+                    {(token !== "null") ?
+                        <li>
+                            <Link to="/sign-out">Sign out</Link>
+                        </li>
+                        :
+                        <li>
+                            <Link to="/sign-in">Sign in / Register</Link>
+                        </li>
                     }
                 </ul>
             </nav>

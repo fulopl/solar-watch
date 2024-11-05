@@ -3,6 +3,15 @@ import {useState} from "react";
 const CityTable = ({cities, onDelete}) => {
     const [idToDelete, setIdToDelete] = useState(null)
 
+    if (cities.length === 0) return (
+        <div className="container-main">
+            <div className="textbox-main">
+                <h2>Currently there are no cities in the database.</h2>
+                <h2>Query sunrise / sunset times to have some.</h2>
+            </div>
+        </div>
+    )
+
     return <div className="container-main">
         <div className="textbox-main">
             <table>
