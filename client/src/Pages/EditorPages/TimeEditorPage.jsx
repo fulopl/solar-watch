@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import Loading from "../../Components/Loading/Loading";
-import UserTable from "../../Components/UserTable";
+import TimeTable from "../../Components/TimeTable";
+import ServerMessagePage from "../ServerMessagePage";
 
-const fetchCities = () => {
+const fetchTimes = () => {
     return fetch("api/time", {
         method: "GET",
         headers:
@@ -22,33 +23,48 @@ const deleteTime = (id) => {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 }
         }
-    ).then(resp => resp.statusText);
+    ).then(resp => {
+        if (resp.ok) return "OK"
+        else return resp.text()
+            .then(text => text)
+            .catch((error) => {
+                return resp.statusText
+            })
+    }).catch(error => error);
 }
 
 const TimeEditorPage = () => {
     const [isLoading, setLoading] = useState(true);
-    const [times, setTimes] = useState([])
+    const [times, setTimes] = useState([]);
+    const [serverMsg, setServerMsg] = useState("");
 
     useEffect(() => {
         setLoading(true);
-        fetchCities().then(times => {
+        fetchTimes().then(times => {
             setLoading(false);
             setTimes(times);
         })
-    }, [])
+    }, [serverMsg])
 
     const handleDelete = (id) => {
         setLoading(true);
-        deleteTime(id).then((status) => {
+        deleteTime(id).then((response) => {
             setLoading(false);
-            if (status === "OK") setTimes(times.filter(time => time.id !== id))
-            else alert(status);
+            if (response === "OK") setTimes(times.filter(time => time.id !== id))
+            else setServerMsg(response);
         });
     }
 
+    const handleOk = () => {
+        setServerMsg("");
+    }
 
 
     if (isLoading) return <Loading/>;
+
+    if (serverMsg) return <ServerMessagePage message={serverMsg}
+                                             onOk={handleOk}
+    />;
 
     return <TimeTable times={times}
                       onDelete={handleDelete}
