@@ -3,6 +3,7 @@ package com.codecool.solarwatch.controller;
 import com.codecool.solarwatch.model.*;
 import com.codecool.solarwatch.service.GeocodingService;
 import com.codecool.solarwatch.service.SunriseSunsetService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ public class SolarWatchController {
     private final GeocodingService geocodingService;
     private final SunriseSunsetService sunriseSunsetService;
 
+    @Autowired
     public SolarWatchController(GeocodingService geocodingService, SunriseSunsetService sunriseSunsetService) {
         this.geocodingService = geocodingService;
         this.sunriseSunsetService = sunriseSunsetService;

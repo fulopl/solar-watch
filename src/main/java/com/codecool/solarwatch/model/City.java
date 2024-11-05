@@ -80,7 +80,6 @@ public class City implements Serializable {
                 ", country='" + country + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
-                ", sunRiseSunSetTimes=" + sunRiseSunSetTimes +
                 '}';
     }
 }

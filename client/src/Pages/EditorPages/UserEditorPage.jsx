@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import Loading from "../Components/Loading/Loading";
-import UserTable from "../Components/UserTable";
+import Loading from "../../Components/Loading/Loading";
+import UserTable from "../../Components/UserTable";
 
 const fetchUsers = () => {
     return fetch("api/user", {

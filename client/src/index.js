@@ -10,9 +10,11 @@ import RegistrationPage from "./Pages/RegistrationPage";
 import SignInPage from "./Pages/SignInPage";
 import SunriseSunsetTimesPage from "./Pages/SunriseSunsetTimesPage";
 import Token from "./Pages/Token";
-import UserEditorPage from "./Pages/UserEditorPage";
+import UserEditorPage from "./Pages/EditorPages/UserEditorPage";
 import SignOutPage from "./Pages/SignOutPage";
 import SignInMessagePage from "./Pages/SignInMessagePage";
+import CityEditorPage from "./Pages/EditorPages/CityEditorPage";
+import TimeEditorPage from "./Pages/EditorPages/TimeEditorPage";
 
 const router = createBrowserRouter([
     {
@@ -47,6 +49,14 @@ const router = createBrowserRouter([
             {
                 path: "/user-editor",
                 element: <UserEditorPage />,
+            },
+            {
+                path: "/city-editor",
+                element: <CityEditorPage />,
+            },
+            {
+                path: "/time-editor",
+                element: <TimeEditorPage />,
             },
             {
                 path: "/sign-in-message",
