@@ -14,7 +14,7 @@ public class SunRiseSunSetTime {
     private String sunRise;
     private String sunSet;
     @ManyToOne
-    @JoinColumn(name = "cityId2")  // Foreign key will be created with this name
+    @JoinColumn(name = "cityId2")
     private City city;
 
     public SunRiseSunSetTime() {
