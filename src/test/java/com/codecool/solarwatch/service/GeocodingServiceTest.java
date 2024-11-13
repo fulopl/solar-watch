@@ -5,19 +5,15 @@ import com.codecool.solarwatch.model.GeocodingPlace;
 import com.codecool.solarwatch.repository.CityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
-import java.sql.Array;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 
 class GeocodingServiceTest {
@@ -27,6 +23,10 @@ class GeocodingServiceTest {
     private WebClient webClient = Mockito.mock(WebClient.class);
     private GeocodingPlace[] testPlaces;
 
+    private WebClient.RequestHeadersUriSpec requestHeadersUriSpec = mock(WebClient.RequestHeadersUriSpec.class);
+    private WebClient.RequestHeadersSpec requestHeadersSpec = mock(WebClient.RequestHeadersSpec.class);
+    private WebClient.ResponseSpec responseSpec = mock(WebClient.ResponseSpec.class);
+
 
     @BeforeEach
     void setUp() {
@@ -34,14 +34,15 @@ class GeocodingServiceTest {
         testPlaces = new GeocodingPlace[1];
         testPlaces[0] = new GeocodingPlace("London", 51.5073219, -0.1276474
                 , "GB", "England");
+
+        requestHeadersUriSpec = mock(WebClient.RequestHeadersUriSpec.class);
+        requestHeadersSpec = mock(WebClient.RequestHeadersSpec.class);
+        responseSpec = mock(WebClient.ResponseSpec.class);
     }
 
     @Test
     void testGetPlaceFromOpenWeatherAPI_givenValidCityName_thenReturnCityEntity() {
         //arrange
-        WebClient.RequestHeadersUriSpec requestHeadersUriSpec = mock(WebClient.RequestHeadersUriSpec.class);
-        WebClient.RequestHeadersSpec requestHeadersSpec = mock(WebClient.RequestHeadersSpec.class);
-        WebClient.ResponseSpec responseSpec = mock(WebClient.ResponseSpec.class);
 
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
@@ -67,9 +68,6 @@ class GeocodingServiceTest {
     @Test
     void testGetPlaceFromOpenWeatherAPI_givenInvalidCityName_thenThrowsException() {
         //arrange
-        WebClient.RequestHeadersUriSpec requestHeadersUriSpec = mock(WebClient.RequestHeadersUriSpec.class);
-        WebClient.RequestHeadersSpec requestHeadersSpec = mock(WebClient.RequestHeadersSpec.class);
-        WebClient.ResponseSpec responseSpec = mock(WebClient.ResponseSpec.class);
 
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
@@ -79,7 +77,7 @@ class GeocodingServiceTest {
         //act
 
         //assert
-        assertThrows(ArrayIndexOutOfBoundsException.class, ()->underTest.getPlaceFromOpenWeatherAPI("Abcxxxxxyz"));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> underTest.getPlaceFromOpenWeatherAPI("Abcxxxxxyz"));
     }
 
     @Test
