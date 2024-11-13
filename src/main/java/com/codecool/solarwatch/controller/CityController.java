@@ -18,12 +18,12 @@ public class CityController {
     }
 
     @GetMapping
-    private List<City> getAllCities() {
+    public List<City> getAllCities() {
         return cityRepository.findAll();
     }
 
     @DeleteMapping("/{id}")
-    private void deleteCity(@PathVariable Long id) {
+    public void deleteCity(@PathVariable Long id) {
         if (cityRepository.existsById(id)) cityRepository.deleteById(id);
         else throw new IllegalArgumentException("No such city.");
     }
