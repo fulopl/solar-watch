@@ -25,17 +25,6 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public UserEntity findCurrentUser() {
-        UserDetails contextUser = (UserDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-
-        String username = contextUser.getUsername();
-
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new NoSuchElementException("No such user."));
-
-    }
-
     public void addRoleFor(Long userId, String roleName) {
         UserEntity user = userRepository.findById(userId).orElse(null);
         if (user == null) throw new IllegalArgumentException("No such user.");
@@ -72,5 +61,4 @@ public class UserService {
           );
         }).toList();
     }
-
 }

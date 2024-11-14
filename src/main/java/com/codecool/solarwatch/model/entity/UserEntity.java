@@ -27,12 +27,12 @@ public class UserEntity {
 
     public UserEntity() {}
 
-    public UserEntity(Long id, String username, String password, Set<Role> roles) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-    }
+//    public UserEntity(Long id, String username, String password, Set<Role> roles) {
+//        this.id = id;
+//        this.username = username;
+//        this.password = password;
+//        this.roles = roles;
+//    }
 
     public Long getId() {
         return id;

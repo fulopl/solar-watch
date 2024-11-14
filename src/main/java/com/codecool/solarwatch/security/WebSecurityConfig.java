@@ -70,7 +70,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/user/**").permitAll()
                                 .requestMatchers("/api/sunrise-sunset-times/**").hasRole("USER")
                                 .requestMatchers("/error").permitAll()
-                                //.anyRequest().authenticated()
+                                .anyRequest().authenticated()
 
                 );
 

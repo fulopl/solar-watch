@@ -15,14 +15,12 @@ import java.time.LocalDate;
 
 @Service
 public class SunriseSunsetService {
-    //private final RestTemplate restTemplate;
     private final SunRiseSunSetTimeRepository sunRiseSunSetTimeRepository;
     private final WebClient webClient;
     private static final Logger logger = LoggerFactory.getLogger(SunRiseSunSetResults.class);
 
     @Autowired
     public SunriseSunsetService(WebClient webClient, SunRiseSunSetTimeRepository sunRiseSunSetTimeRepository) {
-        //this.restTemplate = restTemplate;
         this.webClient = webClient;
         this.sunRiseSunSetTimeRepository = sunRiseSunSetTimeRepository;
     }
@@ -50,7 +48,6 @@ public class SunriseSunsetService {
 
         System.out.println(url);
 
-        //SunRiseSunSetResponse sunRiseSunSetResponse = restTemplate.getForObject(url, SunRiseSunSetResponse.class);
         SunRiseSunSetResponse sunRiseSunSetResponse =  webClient.get()
                 .uri(url)
                 .retrieve()

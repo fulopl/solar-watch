@@ -36,10 +36,6 @@ public class SunRiseSunSetTime {
         this.id = id;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
-    }
-
     public void setLocalDate(LocalDate localDate) {
         this.localDate = localDate;
     }
