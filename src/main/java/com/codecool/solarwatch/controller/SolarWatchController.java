@@ -24,7 +24,7 @@ public class SolarWatchController {
 
     @GetMapping
     public SunRiseSunSetTimeDTO getSunRiseSunSet(@RequestParam(required = false) LocalDate date
-            , @RequestParam(name = "city", defaultValue = "Budapest") String cityName) {
+            , @RequestParam(name = "city", defaultValue = "Budapest") String cityName) throws InvalidApiKeyException {
 
         if (date == null) date = LocalDate.now();
         City city;
