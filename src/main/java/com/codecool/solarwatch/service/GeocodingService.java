@@ -1,7 +1,7 @@
 package com.codecool.solarwatch.service;
 
-import com.codecool.solarwatch.controller.InvalidApiKeyException;
-import com.codecool.solarwatch.controller.ThirdPartyServiceException;
+import com.codecool.solarwatch.errorhandling.InvalidApiKeyException;
+import com.codecool.solarwatch.errorhandling.ThirdPartyServiceException;
 import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.model.GeocodingPlace;
 import com.codecool.solarwatch.model.GeocodingResponse;

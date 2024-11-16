@@ -1,5 +1,8 @@
 package com.codecool.solarwatch.controller;
 
+import com.codecool.solarwatch.errorhandling.InvalidApiKeyException;
+import com.codecool.solarwatch.errorhandling.InvalidLocationException;
+import com.codecool.solarwatch.errorhandling.ThirdPartyServiceException;
 import com.codecool.solarwatch.model.*;
 import com.codecool.solarwatch.service.GeocodingService;
 import com.codecool.solarwatch.service.SunriseSunsetService;
@@ -9,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/sunrise-sunset-times")

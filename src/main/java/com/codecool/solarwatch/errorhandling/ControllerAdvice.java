@@ -1,6 +1,5 @@
-package com.codecool.solarwatch.controller;
+package com.codecool.solarwatch.errorhandling;
 
-import com.codecool.solarwatch.errorhandling.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

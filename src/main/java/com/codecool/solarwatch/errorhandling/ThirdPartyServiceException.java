@@ -1,4 +1,4 @@
-package com.codecool.solarwatch.controller;
+package com.codecool.solarwatch.errorhandling;
 
 public class ThirdPartyServiceException extends NullPointerException{
     public ThirdPartyServiceException() {
