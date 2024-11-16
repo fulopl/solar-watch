@@ -63,9 +63,10 @@ management, security etc.
 ## How to run this app?
 
 ### Prerequisites
-Ensure the following are installed on your computer:
-- Git (https://git-scm.com/downloads)
-- Docker Desktop (https://www.docker.com/products/docker-desktop/)
+- Ensure the following are installed on your computer:
+  - Git (https://git-scm.com/downloads)
+  - Docker Desktop (https://www.docker.com/products/docker-desktop/)
+- Create an account at https://home.openweathermap.org/users/sign_up to obtain your own API key. 
 
 ### Installation and run
 To set up the project locally:
@@ -73,7 +74,11 @@ To set up the project locally:
 ```sh
    git clone https://github.com/CodecoolGlobal/solar-watch-MVP-java-fulopl
    ```
-2. Build the application containers and run the app by typing the command below (the build process may take some minutes):
+2. Rename the ".env.example" file to ".env", and replace the placeholder variable values to your values:
+  - replace the "your_secret_key" text with a randomly created, at least 32 characters long string
+  - replace the "your_openweather_api_key" text with your previously obtained API key from https://home.openweathermap.org/api_keys .
+3. Make sure Docker Desktop is running. 
+4. Build the application containers and run the app by typing the command below (the build process may take some minutes):
 ```sh
    docker compose up
    ```
