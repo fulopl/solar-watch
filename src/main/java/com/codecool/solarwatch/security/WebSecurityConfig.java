@@ -72,7 +72,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/city/**").hasRole("ADMIN")
                                 .requestMatchers("/api/time/**").hasRole("ADMIN")
                                 .requestMatchers("/error").permitAll()
-                                //.anyRequest().authenticated()
+                                .anyRequest().authenticated()
 
                 );
 
