@@ -1,4 +1,4 @@
-package com.codecool.solarwatch.controller;
+package com.codecool.solarwatch.errorhandling;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,5 +43,12 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String illegalArgumentHandler(IllegalArgumentException ex) {
         return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(InvalidApiKeyException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorMessage invalidApiKeyHandler() {
+        return new ErrorMessage("Invalid API key");
     }
 }
