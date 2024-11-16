@@ -13,28 +13,34 @@ const getSunriseSunsetTimes = (date, city) => {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 }
         }
-    );
+    ).then(res => res.json());
 }
 
 const SunriseSunsetTimesPage = () => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [showForm, setShowForm] = useState(true);
-    const [authError, setAuthError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
     const [sunriseSunsetResults, setSunriseSunsetResults] = useState();
 
     const handleGetSunriseSunsetTimes = (date, cityName) => {
         setLoading(true);
         getSunriseSunsetTimes(date, cityName)
             .then(res => {
-                if (!res.ok) throw new Error(res.statusText)
-                return res.json()
+                if (res.error) throw new Error(res.error)
+                return res
             })
             .then(resp => {
                 setSunriseSunsetResults(resp);
             })
             .catch(error => {
-                setAuthError(true)
+                if (error.message === "Full authentication is required to access this resource") {
+                    setErrorMsg("Please sign in to use this service!")
+                }
+                else if (error.message === "Invalid API key") {
+                    setErrorMsg(error.message)
+                }
+                else setErrorMsg("Unexpected error")
             })
             .finally(() => {
                 setLoading(false);
@@ -59,12 +65,12 @@ const SunriseSunsetTimesPage = () => {
         )
     }
 
-    if (authError) {
+    if (errorMsg) {
         return (
             <div className="container-main">
                 <div className="textbox-main">
-                    <h2>Please sign in to use this service!</h2>
-                    <button type="button" onClick={() => navigate("/sign-in")}>
+                    <h2>{errorMsg}</h2>
+                    <button type="button" onClick={() => navigate("/")}>
                         OK
                     </button>
                 </div>
