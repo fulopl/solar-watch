@@ -48,7 +48,7 @@ public class ControllerAdvice {
     @ResponseBody
     @ExceptionHandler(InvalidApiKeyException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorMessage invalidApiKeyHandler() {
-        return new ErrorMessage("Invalid API key");
+    public ErrorMessage invalidApiKeyHandler(InvalidApiKeyException ex) {
+        return new ErrorMessage(ex.getMessage());
     }
 }
