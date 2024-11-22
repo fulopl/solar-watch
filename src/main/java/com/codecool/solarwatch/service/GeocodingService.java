@@ -1,6 +1,7 @@
 package com.codecool.solarwatch.service;
 
 import com.codecool.solarwatch.errorhandling.InvalidApiKeyException;
+import com.codecool.solarwatch.errorhandling.InvalidLocationException;
 import com.codecool.solarwatch.errorhandling.ThirdPartyServiceException;
 import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.model.GeocodingPlace;
@@ -27,14 +28,13 @@ public class GeocodingService {
         this.cityRepository = cityRepository;
     }
 
-    public City getGeocodingPlace(String cityName) throws InvalidApiKeyException {
+    public City getGeocodingPlace(String cityName) {
         City city = cityRepository.findByName(cityName).orElse(null);
         if (city == null) city = getPlaceFromOpenWeatherAPI(cityName);
         return city;
     }
 
-    protected City getPlaceFromOpenWeatherAPI(String cityName) throws ArrayIndexOutOfBoundsException,
-            NullPointerException, InvalidApiKeyException {
+    protected City getPlaceFromOpenWeatherAPI(String cityName) {
         City city = new City();
         try {
             String url = String.format("http://api.openweathermap.org/geo/1.0/direct"
@@ -57,8 +57,10 @@ public class GeocodingService {
             city.setLongitude(places[0].lon());
             cityRepository.save(city);
         } catch (WebClientResponseException e) {
-            if (e.getStatusText().equals("Unauthorized")) throw new InvalidApiKeyException();
+            if (e.getStatusText().equals("Unauthorized")) throw new InvalidLocationException();
             else throw new ThirdPartyServiceException();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new InvalidLocationException();
         } catch (Exception e) {
             throw new ThirdPartyServiceException();
         }
