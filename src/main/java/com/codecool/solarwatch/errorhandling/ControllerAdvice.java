@@ -20,8 +20,8 @@ public class ControllerAdvice {
     @ResponseBody
     @ExceptionHandler(InvalidLocationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String invalidLocationHandler(InvalidLocationException ex) {
-        return ex.getMessage();
+    public ErrorMessage invalidLocationHandler(InvalidLocationException ex) {
+        return new ErrorMessage(ex.getMessage());
     }
 
     @ResponseBody

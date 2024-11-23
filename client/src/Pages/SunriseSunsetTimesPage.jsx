@@ -41,6 +41,9 @@ const SunriseSunsetTimesPage = () => {
                 else if (error.message === "Invalid API key") {
                     setErrorMsg(error.message)
                 }
+                else if (error.message === "Unknown location.") {
+                    setErrorMsg(error.message)
+                }
                 else setErrorMsg("Unexpected error")
             })
             .finally(() => {
