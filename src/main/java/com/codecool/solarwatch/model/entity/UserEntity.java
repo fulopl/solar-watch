@@ -17,7 +17,6 @@ public class UserEntity {
 
     private String password;
 
-    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_entity_role",
@@ -26,13 +25,6 @@ public class UserEntity {
     private Set<Role> roles;
 
     public UserEntity() {}
-
-//    public UserEntity(Long id, String username, String password, Set<Role> roles) {
-//        this.id = id;
-//        this.username = username;
-//        this.password = password;
-//        this.roles = roles;
-//    }
 
     public Long getId() {
         return id;

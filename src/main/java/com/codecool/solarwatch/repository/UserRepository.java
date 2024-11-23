@@ -2,10 +2,8 @@ package com.codecool.solarwatch.repository;
 
 import com.codecool.solarwatch.model.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
