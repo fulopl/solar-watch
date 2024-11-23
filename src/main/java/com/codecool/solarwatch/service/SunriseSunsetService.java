@@ -1,5 +1,6 @@
 package com.codecool.solarwatch.service;
 
+import com.codecool.solarwatch.errorhandling.ThirdPartyServiceException;
 import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.model.SunRiseSunSetResponse;
 import com.codecool.solarwatch.model.SunRiseSunSetResults;
@@ -25,30 +26,34 @@ public class SunriseSunsetService {
         this.sunRiseSunSetTimeRepository = sunRiseSunSetTimeRepository;
     }
 
-    public SunRiseSunSetTime getSunriseSunsetTime(LocalDate date, City city) throws NullPointerException{
+    public SunRiseSunSetTime getSunriseSunsetTime(LocalDate date, City city) {
         SunRiseSunSetTime sunRiseSunSetTime = sunRiseSunSetTimeRepository
                 .findByCityAndLocalDate(city, date).orElse(null);
         if (sunRiseSunSetTime == null) {
-            SunRiseSunSetResults sunRiseSunSetResults = getSunriseSunsetTimeFromAPI(city.getLatitude(), city.getLongitude(), date);
-            sunRiseSunSetTime = new SunRiseSunSetTime();
-            sunRiseSunSetTime.setLocalDate(date);
-            sunRiseSunSetTime.setCity(city);
-            sunRiseSunSetTime.setSunRise(sunRiseSunSetResults.sunrise());
-            sunRiseSunSetTime.setSunSet(sunRiseSunSetResults.sunset());
-            sunRiseSunSetTimeRepository.save(sunRiseSunSetTime);
+            try {
+                SunRiseSunSetResults sunRiseSunSetResults = getSunriseSunsetTimeFromAPI(city.getLatitude(), city.getLongitude(), date);
+                sunRiseSunSetTime = new SunRiseSunSetTime();
+                sunRiseSunSetTime.setLocalDate(date);
+                sunRiseSunSetTime.setCity(city);
+                sunRiseSunSetTime.setSunRise(sunRiseSunSetResults.sunrise());
+                sunRiseSunSetTime.setSunSet(sunRiseSunSetResults.sunset());
+                sunRiseSunSetTimeRepository.save(sunRiseSunSetTime);
+            } catch (Exception e) {
+                throw new ThirdPartyServiceException();
+            }
         }
         return sunRiseSunSetTime;
     }
 
     private SunRiseSunSetResults getSunriseSunsetTimeFromAPI(double lat, double lng, LocalDate date)
-            throws NullPointerException{
+            throws NullPointerException {
 
         String url = String.format("https://api.sunrise-sunset.org/json" +
                 "?lat=%s&lng=%s&date=%tF", lat, lng, date);
 
         System.out.println(url);
 
-        SunRiseSunSetResponse sunRiseSunSetResponse =  webClient.get()
+        SunRiseSunSetResponse sunRiseSunSetResponse = webClient.get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(SunRiseSunSetResponse.class)

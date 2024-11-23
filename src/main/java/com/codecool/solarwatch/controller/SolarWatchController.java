@@ -2,7 +2,6 @@ package com.codecool.solarwatch.controller;
 
 import com.codecool.solarwatch.errorhandling.InvalidApiKeyException;
 import com.codecool.solarwatch.errorhandling.InvalidLocationException;
-import com.codecool.solarwatch.errorhandling.ThirdPartyServiceException;
 import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.model.SunRiseSunSetTime;
 import com.codecool.solarwatch.model.SunRiseSunSetTimeDTO;
@@ -37,13 +36,9 @@ public class SolarWatchController {
         City city;
         city = geocodingService.getGeocodingPlace(cityName);
 
-        SunRiseSunSetTime sunRiseSunSetTime;
-        try {
-            sunRiseSunSetTime = sunriseSunsetService
-                    .getSunriseSunsetTime(date, city);
-        } catch (NullPointerException e) {
-            throw new ThirdPartyServiceException();
-        }
+        SunRiseSunSetTime sunRiseSunSetTime = sunriseSunsetService
+                .getSunriseSunsetTime(date, city);
+
         return new SunRiseSunSetTimeDTO(
                 city.getName(),
                 city.getState(),
