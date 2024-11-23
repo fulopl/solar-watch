@@ -6,12 +6,9 @@ import com.codecool.solarwatch.model.payload.UserResponse;
 import com.codecool.solarwatch.repository.RoleRepository;
 import com.codecool.solarwatch.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -54,11 +51,11 @@ public class UserService {
 
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream().map(user -> {
-          return new UserResponse(
-                  user.getId(),
-                  user.getUsername(),
-                  user.getRoles().stream().map(Role::getName).toList()
-          );
+            return new UserResponse(
+                    user.getId(),
+                    user.getUsername(),
+                    user.getRoles().stream().map(Role::getName).toList()
+            );
         }).toList();
     }
 }

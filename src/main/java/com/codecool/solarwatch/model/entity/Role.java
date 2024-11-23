@@ -13,9 +13,6 @@ public class Role {
     @GeneratedValue
     private Long id;
     private String name;
-    //@ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //@ManyToMany(mappedBy = "roles")
-    //private Set<UserEntity> users;
 
     public Role(String name) {
         this.name = name;

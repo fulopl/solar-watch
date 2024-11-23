@@ -11,10 +11,7 @@ import java.util.NoSuchElementException;
 @org.springframework.web.bind.annotation.ControllerAdvice
 public class ControllerAdvice {
 
-    private final View error;
-
     public ControllerAdvice(View error) {
-        this.error = error;
     }
 
     @ResponseBody
