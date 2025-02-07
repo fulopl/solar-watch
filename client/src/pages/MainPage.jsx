@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import Loading from "../Components/Loading";
+import Loading from "../components/Loading";
 
 const auth = (token) => {
     return fetch("api/user/auth",

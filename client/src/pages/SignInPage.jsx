@@ -1,7 +1,8 @@
-import SignInForm from "../Components/SignInForm";
+import SignInForm from "../components/SignInForm";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import Loading from "../Components/Loading";
+import Loading from "../components/Loading";
+import {useUser} from "../context/UserProvider";
 
 const signIn = (user) => {
     return fetch("api/user/signin",
@@ -19,6 +20,8 @@ const SignInPage = ({setUserContext}) => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
+
+    const {user, login, logout} = useUser();
 
     const handleSignIn = (user) => {
         setLoading(true);

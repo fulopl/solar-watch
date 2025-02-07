@@ -1,6 +1,6 @@
-import Loading from "../Components/Loading";
+import Loading from "../components/Loading";
 import {useState} from "react";
-import SunriseSunsetTimesForm from "../Components/SunriseSunsetTimesForm";
+import SunriseSunsetTimesForm from "../components/SunriseSunsetTimesForm";
 import {useNavigate} from "react-router-dom";
 
 const getSunriseSunsetTimes = (date, city) => {

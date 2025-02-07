@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import Loading from "../../Components/Loading/Loading";
-import TimeTable from "../../Components/TimeTable";
+import Loading from "../../components/Loading/Loading";
+import CityTable from "../../components/CityTable";
 import ServerMessagePage from "../ServerMessagePage";
 
-const fetchTimes = () => {
-    return fetch("api/time", {
+const fetchCities = () => {
+    return fetch("api/city", {
         method: "GET",
         headers:
             {
@@ -12,10 +12,11 @@ const fetchTimes = () => {
                 'Authorization': `Bearer ${localStorage.getItem("jwt")}`
             }
     }).then(resp => resp.json())
+
 }
 
-const deleteTime = (id) => {
-    return fetch(`/api/time/${id}`, {
+const deleteCity = (id) => {
+    return fetch(`/api/city/${id}`, {
             method: "DELETE",
             headers:
                 {
@@ -33,24 +34,24 @@ const deleteTime = (id) => {
     }).catch(error => error);
 }
 
-const TimeEditorPage = () => {
+const CityEditorPage = () => {
     const [isLoading, setLoading] = useState(true);
-    const [times, setTimes] = useState([]);
+    const [cities, setCities] = useState([]);
     const [serverMsg, setServerMsg] = useState("");
 
     useEffect(() => {
         setLoading(true);
-        fetchTimes().then(times => {
+        fetchCities().then(cities => {
             setLoading(false);
-            setTimes(times);
+            setCities(cities);
         })
     }, [serverMsg])
 
     const handleDelete = (id) => {
         setLoading(true);
-        deleteTime(id).then((response) => {
+        deleteCity(id).then((response) => {
             setLoading(false);
-            if (response === "OK") setTimes(times.filter(time => time.id !== id))
+            if (response === "OK") setCities(cities.filter(city => city.id !== id))
             else setServerMsg(response);
         });
     }
@@ -66,9 +67,9 @@ const TimeEditorPage = () => {
                                              onOk={handleOk}
     />;
 
-    return <TimeTable times={times}
+    return <CityTable cities={cities}
                       onDelete={handleDelete}
     />;
 }
 
-export default TimeEditorPage;
+export default CityEditorPage;
