@@ -63,7 +63,7 @@ public class UserController {
         userRepository.save(user);
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/sign-in")
     public JwtResponse authenticateUser(@RequestBody UserCredentials loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
