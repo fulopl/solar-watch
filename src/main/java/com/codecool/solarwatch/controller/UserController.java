@@ -1,7 +1,7 @@
 package com.codecool.solarwatch.controller;
 
 import com.codecool.solarwatch.model.entity.UserEntity;
-import com.codecool.solarwatch.model.payload.JwtResponse;
+import com.codecool.solarwatch.model.payload.UserDataResponse;
 import com.codecool.solarwatch.model.payload.UserCredentials;
 import com.codecool.solarwatch.model.payload.UserResponse;
 import com.codecool.solarwatch.repository.RoleRepository;
@@ -51,7 +51,7 @@ public class UserController {
     @PostMapping("/register")
     public void createUser(@RequestBody UserCredentials signUpRequest)
             throws IllegalArgumentException {
-        
+
         if (userRepository.existsByUsername(signUpRequest.username())) {
             throw new IllegalArgumentException("Username not available.");
         }
@@ -64,24 +64,26 @@ public class UserController {
     }
 
     @PostMapping("/sign-in")
-    public JwtResponse authenticateUser(@RequestBody UserCredentials loginRequest) {
+    public String authenticateUser(@RequestBody UserCredentials loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        return jwtUtils.generateJwtToken(authentication);
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('USER')")
+    public UserDataResponse getUserData() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         User userDetails = (User) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        return new JwtResponse(jwt, userDetails.getUsername(), roles);
-    }
-
-    @GetMapping("/auth")
-    @PreAuthorize("hasRole('USER')")
-    public void auth() {
+        return new UserDataResponse(userDetails.getUsername(), roles);
     }
 
     @PatchMapping("/addrole")
