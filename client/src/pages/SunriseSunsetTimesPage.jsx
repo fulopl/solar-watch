@@ -10,7 +10,7 @@ const getSunriseSunsetTimes = (date, city) => {
             headers:
                 {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(res => res.json());

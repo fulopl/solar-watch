@@ -8,7 +8,7 @@ const fetchUsers = () => {
         headers:
             {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
     }).then(resp => resp.json())
 }
@@ -19,7 +19,7 @@ const deleteUser = (id) => {
             headers:
                 {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => resp.statusText);
@@ -35,7 +35,7 @@ const addAdmin = (id) => {
                     'Content-Type':
                         'application/json',
                     'Authorization':
-                        `Bearer ${localStorage.getItem("jwt")}`
+                        `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => resp.statusText)
@@ -50,7 +50,7 @@ const removeAdmin = (id) => {
                     'Content-Type':
                         'application/json',
                     'Authorization':
-                        `Bearer ${localStorage.getItem("jwt")}`
+                        `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => resp.statusText)

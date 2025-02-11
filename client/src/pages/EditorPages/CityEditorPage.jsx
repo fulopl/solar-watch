@@ -9,7 +9,7 @@ const fetchCities = () => {
         headers:
             {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
     }).then(resp => resp.json())
 
@@ -21,7 +21,7 @@ const deleteCity = (id) => {
             headers:
                 {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => {
