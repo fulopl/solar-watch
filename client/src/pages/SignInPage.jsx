@@ -16,28 +16,31 @@ const signIn = (user) => {
     ).then(res => res.json());
 }
 
-const SignInPage = ({setUserContext}) => {
+const SignInPage = () => {
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
+    const {user, login} = useUser();
 
-    const {user, login, logout} = useUser();
-
-    const handleSignIn = (user) => {
+    const handleSignIn = (userCredentials) => {
         setLoading(true);
-        signIn(user).then((res) => {
-                setLoading(false);
-                if (res.jwt) {
-                    localStorage.setItem("jwt", res.jwt);
-                    localStorage.setItem("userName", res.userName);
-                    localStorage.setItem("roles", res.roles);
-                    localStorage.setItem("enableReload", "true")
-                    navigate("/sign-in-message");
-                } else {
-                    setErrorMsg(res.error);
-                }
-            }
-        );
+        // signIn(user).then((res) => {
+        //         setLoading(false);
+        //         if (res.jwt) {
+        //             localStorage.setItem("jwt", res.jwt);
+        //             localStorage.setItem("userName", res.userName);
+        //             localStorage.setItem("roles", res.roles);
+        //             localStorage.setItem("enableReload", "true")
+        //         } else {
+        //             setErrorMsg(res.error);
+        //         }
+        //     }
+        // );
+        console.log("Sign-in method. User= " + JSON.stringify(user))
+        console.log("Sign-in method. LS token= " + window.localStorage.getItem("token"))
+        login(userCredentials);
+        navigate("/sign-in-message");
+        setLoading(false);
     }
 
     if (isLoading) {
