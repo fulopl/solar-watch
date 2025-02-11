@@ -78,6 +78,7 @@ public class UserController {
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
     public UserDataResponse getUserData() {
+        System.out.println("it is backend / me");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         User userDetails = (User) authentication.getPrincipal();
