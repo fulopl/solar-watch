@@ -1,67 +1,43 @@
 import SignInForm from "../components/SignInForm";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import Loading from "../components/Loading";
 import {useUser} from "../context/UserProvider";
-
-const signIn = (user) => {
-    return fetch("api/user/signin",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(user)
-        }
-    ).then(res => res.json());
-}
 
 const SignInPage = () => {
     const navigate = useNavigate();
-    const [isLoading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState("");
-    const {user, login} = useUser();
+    const [isDisabled,setDisabled] = useState(false);
+    const {message, reSetMessage, login} = useUser();
 
     const handleSignIn = (userCredentials) => {
-        setLoading(true);
-        // signIn(user).then((res) => {
-        //         setLoading(false);
-        //         if (res.jwt) {
-        //             localStorage.setItem("jwt", res.jwt);
-        //             localStorage.setItem("userName", res.userName);
-        //             localStorage.setItem("roles", res.roles);
-        //             localStorage.setItem("enableReload", "true")
-        //         } else {
-        //             setErrorMsg(res.error);
-        //         }
-        //     }
-        // );
-        console.log("Sign-in method. User= " + JSON.stringify(user))
-        console.log("Sign-in method. LS token= " + window.localStorage.getItem("token"))
+        setDisabled(true);
         login(userCredentials);
-        navigate("/sign-in-message");
-        setLoading(false);
     }
 
-    if (isLoading) {
-        return <Loading/>;
-    }
-
-    if (errorMsg) {
+    if (!message) {
         return (
             <div className="container-main">
                 <div className="textbox-main">
-                    {errorMsg === "Bad credentials" ?
-                        <h2>Incorrect username or password. Please try again!</h2>
-                        :
-                        <div>
-                            <h2>An error occurred while processing your request.</h2>
-                            <h2>(${errorMsg})</h2>
-                            <h2>Please try again later!</h2>
-                        </div>
-                    }
-                    <button type="button" onClick={() => setErrorMsg("")}>
-                        OK
+                    <h2>Sign in</h2>
+                    <SignInForm
+                        disabled={isDisabled}
+                        onSave={handleSignIn}
+                    />
+                    <h2>...or create a new account</h2>
+                    <Link to="/register">
+                        <button type="button">Register</button>
+                    </Link>
+                </div>
+            </div>
+        )
+    }
+
+    if (message === "OK") {
+        return (
+            <div className="container-main">
+                <div className="textbox-main">
+                    <h2>You have successfully signed in.</h2>
+                    <button type="button" onClick={() => navigate("/")}>
+                        Go to main page!
                     </button>
                 </div>
             </div>
@@ -71,18 +47,16 @@ const SignInPage = () => {
     return (
         <div className="container-main">
             <div className="textbox-main">
-                <h2>Sign in</h2>
-                <SignInForm
-                    disabled={isLoading}
-                    onSave={handleSignIn}
-                />
-                <h2>...or create a new account</h2>
-                <Link to="/register">
-                    <button type="button">Register</button>
-                </Link>
+                <h2>{message}</h2>
+                <button type="button" onClick={() => {
+                    reSetMessage();
+                    setDisabled(false);
+                }}>
+                    OK
+                </button>
             </div>
         </div>
-    )
+    );
 }
 
 export default SignInPage;
