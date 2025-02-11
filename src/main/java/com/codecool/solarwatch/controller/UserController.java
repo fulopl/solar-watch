@@ -1,6 +1,7 @@
 package com.codecool.solarwatch.controller;
 
 import com.codecool.solarwatch.model.entity.UserEntity;
+import com.codecool.solarwatch.model.JwtResponse;
 import com.codecool.solarwatch.model.payload.UserDataResponse;
 import com.codecool.solarwatch.model.payload.UserCredentials;
 import com.codecool.solarwatch.model.payload.UserResponse;
@@ -64,7 +65,7 @@ public class UserController {
     }
 
     @PostMapping("/sign-in")
-    public String authenticateUser(@RequestBody UserCredentials loginRequest) {
+    public JwtResponse authenticateUser(@RequestBody UserCredentials loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
@@ -72,13 +73,12 @@ public class UserController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtUtils.generateJwtToken(authentication);
+        return new JwtResponse(jwtUtils.generateJwtToken(authentication));
     }
 
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
     public UserDataResponse getUserData() {
-        System.out.println("it is backend / me");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         User userDetails = (User) authentication.getPrincipal();
