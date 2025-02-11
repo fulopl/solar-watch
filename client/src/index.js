@@ -9,7 +9,6 @@ import MainPage from "./pages/MainPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import SignInPage from "./pages/SignInPage";
 import SunriseSunsetTimesPage from "./pages/SunriseSunsetTimesPage";
-import Token from "./pages/Token";
 import UserEditorPage from "./pages/EditorPages/UserEditorPage";
 import SignOutPage from "./pages/SignOutPage";
 import SignInMessagePage from "./pages/SignInMessagePage";
@@ -42,10 +41,6 @@ const router = createBrowserRouter([
             {
                 path: "/register",
                 element: <RegistrationPage/>,
-            },
-            {
-                path: "/token",
-                element: <Token/>,
             },
             {
                 path: "/user-editor",

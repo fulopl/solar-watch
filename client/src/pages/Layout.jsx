@@ -54,13 +54,6 @@ const Layout = () => {
                             </li>
                             : <></>
                     }
-                    {
-                        user?.roles.includes("ROLE_ADMIN") ?
-                            <li>
-                                <Link to="/token">Token</Link>
-                            </li>
-                            : <></>
-                    }
                     {(user !== null) ?
                         <li>
                             <Link to="/sign-out">Sign out</Link>
