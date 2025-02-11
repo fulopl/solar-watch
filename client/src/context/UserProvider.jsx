@@ -1,23 +1,25 @@
-import {createContext, useContext, useState, useEffect, useCallback} from "react";
+import {createContext, useCallback, useContext, useEffect, useState} from "react";
 
 const UserContext = createContext({});
 
 const setToken = (token) => window.localStorage.setItem("token", token);
 const getToken = () => window.localStorage.getItem("token");
 
-const UserProvider = ({ children }) => {
+const UserProvider = ({children}) => {
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(true);
 
-    const getMe = useCallback((token) => {
-        fetch("/api/user/auth/", {
-            headers: {
-                authorization: `bearer ${token}`,
-            },
+    const getMe = useCallback(() => {
+        fetch("/api/user/me", {
+            headers:
+                {
+                    authorization: `Bearer ${getToken()}`
+                }
         })
-            .then((r) => r.json())
-            .then((user) => {
-                setUser(user);
+            .then((res) => res.json())
+            .then((response) => {
+                if (!response.error) setUser(response);
+                else setUser(null);
             })
             .finally(() => {
                 setLoading(false);
@@ -43,12 +45,13 @@ const UserProvider = ({ children }) => {
             },
             body: JSON.stringify(credentials),
         })
-            .then((res) => res.json())
+            .then((res) => res.text())
             .then((res) => {
-                const { token } = res;
+                console.log("Login method: res: " + JSON.stringify(res));
+                const token = res;
                 if (token) {
                     setToken(token);
-                    getMe(token);
+                    getMe();
                 }
             });
     };
@@ -59,7 +62,7 @@ const UserProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value={{ user, login, logout }}>
+        <UserContext.Provider value={{user, login, logout}}>
             {!loading && children}
         </UserContext.Provider>
     );
