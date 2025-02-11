@@ -44,7 +44,7 @@ const SunriseSunsetTimesPage = () => {
                 else if (error.message === "Unknown location.") {
                     setErrorMsg(error.message)
                 }
-                else setErrorMsg("Unexpected error")
+                else setErrorMsg("Server/network unavailable. Please try again later!")
             })
             .finally(() => {
                 setLoading(false);
@@ -106,7 +106,7 @@ const SunriseSunsetTimesPage = () => {
                             checked={useLocalTime}
                             onChange={() => useLocalTime ? setUseLocalTime(false) : setUseLocalTime(true)}
                         />
-                        <span class="checkbox-container">Display in local time</span>
+                        <span className="checkbox-container">Display in local time</span>
                     </label>
                 </div>
                 <button type="button" onClick={() => setShowForm(true)}>
