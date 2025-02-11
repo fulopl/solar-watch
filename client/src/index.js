@@ -11,7 +11,6 @@ import SignInPage from "./pages/SignInPage";
 import SunriseSunsetTimesPage from "./pages/SunriseSunsetTimesPage";
 import UserEditorPage from "./pages/EditorPages/UserEditorPage";
 import SignOutPage from "./pages/SignOutPage";
-import SignInMessagePage from "./pages/SignInMessagePage";
 import CityEditorPage from "./pages/EditorPages/CityEditorPage";
 import TimeEditorPage from "./pages/EditorPages/TimeEditorPage";
 import UserProvider from "./context/UserProvider";
@@ -53,10 +52,6 @@ const router = createBrowserRouter([
             {
                 path: "/time-editor",
                 element: <TimeEditorPage/>,
-            },
-            {
-                path: "/sign-in-message",
-                element: <SignInMessagePage/>,
             },
         ]
     }
