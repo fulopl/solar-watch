@@ -1,6 +1,7 @@
 package com.codecool.solarwatch.integrationtest;
 
 import com.codecool.solarwatch.controller.SolarWatchController;
+import com.codecool.solarwatch.errorhandling.InvalidApiKeyException;
 import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.model.SunRiseSunSetTime;
 import com.codecool.solarwatch.model.SunRiseSunSetTimeDTO;
@@ -39,7 +40,7 @@ public class SolarWatchControllerIT {
     private GeocodingService geocodingService;
 
     @Test
-    void requestReturnsSunSetSunRiseTimes() {
+    void requestReturnsSunSetSunRiseTimes() throws InvalidApiKeyException {
         //TODO response == null
         //arrange
         City city = new City("Budapest");

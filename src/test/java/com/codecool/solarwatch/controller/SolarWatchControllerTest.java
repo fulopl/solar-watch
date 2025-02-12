@@ -1,5 +1,7 @@
 package com.codecool.solarwatch.controller;
 
+import com.codecool.solarwatch.errorhandling.InvalidApiKeyException;
+import com.codecool.solarwatch.errorhandling.InvalidLocationException;
 import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.model.SunRiseSunSetTime;
 import com.codecool.solarwatch.model.SunRiseSunSetTimeDTO;
@@ -23,7 +25,7 @@ public class SolarWatchControllerTest {
     }
 
     @Test
-    void testGetSunRiseSunSet_GivenCityAndDate_ShouldReturnSunRiseSunSetTimeDTO() {
+    void testGetSunRiseSunSet_GivenCityAndDate_ShouldReturnSunRiseSunSetTimeDTO() throws InvalidApiKeyException {
         //arrange
         String cityName = "London";
         LocalDate date = LocalDate.of(2023, 9, 18);
@@ -51,7 +53,7 @@ public class SolarWatchControllerTest {
     }
 
     @Test
-    void testGetSunRiseSunSet_GivenInvalidCity_ShouldReturnSunRiseSunSetTimeDTO() {
+    void testGetSunRiseSunSet_GivenInvalidCity_ShouldReturnSunRiseSunSetTimeDTO() throws InvalidApiKeyException{
         //arrange
         LocalDate date = LocalDate.of(2023, 9, 18);
         String cityName = "XXX";
@@ -62,7 +64,7 @@ public class SolarWatchControllerTest {
     }
 
     @Test
-    void testGetSunRiseSunSet_GivenNoArguments_ShouldReturnSunRiseSunSetTimeDTOForTodayAndBudapest() {
+    void testGetSunRiseSunSet_GivenNoArguments_ShouldReturnSunRiseSunSetTimeDTOForTodayAndBudapest() throws InvalidApiKeyException{
         //arrange
         LocalDate date = LocalDate.now();
         City city = new City("Budapest");
