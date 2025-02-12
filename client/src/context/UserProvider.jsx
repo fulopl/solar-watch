@@ -48,7 +48,7 @@ const UserProvider = ({children}) => {
                 } else if (res.error === "Bad credentials") setMessage("Incorrect username or password. Please try again!");
                 else setMessage(`An error occurred while processing your request.\n${res.error}\nPlease try again later!`);
             })
-            .catch(error => {
+            .catch(() => {
                 setMessage("Server/network unavailable. Please try again later!");
             })
     };

@@ -28,7 +28,7 @@ const deleteCity = (id) => {
         if (resp.ok) return "OK"
         else return resp.text()
             .then(text => text)
-            .catch((error) => {
+            .catch(() => {
                 return resp.statusText
             })
     }).catch(error => error);
