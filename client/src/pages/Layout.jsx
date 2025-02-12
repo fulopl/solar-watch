@@ -4,8 +4,6 @@ import {useUser} from "../context/UserProvider";
 const Layout = () => {
     const {user} = useUser();
 
-    console.log("layout. user=" + JSON.stringify(user))
-
     return (
         <div className="main">
             <nav className="navbar">
