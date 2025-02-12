@@ -7,6 +7,7 @@ const getToken = () => window.localStorage.getItem("token");
 
 const UserProvider = ({children}) => {
     const [user, setUser] = useState();
+    const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(true);
 
     const getMe = useCallback(() => {
@@ -18,8 +19,8 @@ const UserProvider = ({children}) => {
         })
             .then((res) => res.json())
             .then((response) => {
-                if (!response.error) setUser(response);
-                else setUser(null);
+                if (response.error) setUser(null);
+                else setUser(response);
             })
             .finally(() => {
                 setLoading(false);
@@ -27,14 +28,7 @@ const UserProvider = ({children}) => {
     }, []);
 
     useEffect(() => {
-        const token = getToken();
-
-        if (!token) {
-            setLoading(false);
-            return;
-        }
-
-        getMe(token);
+        getMe();
     }, []);
 
     const login = (credentials) => {
@@ -45,15 +39,18 @@ const UserProvider = ({children}) => {
             },
             body: JSON.stringify(credentials),
         })
-            .then((res) => res.text())
+            .then((res) => res.json())
             .then((res) => {
-                console.log("Login method: res: " + JSON.stringify(res));
-                const token = res;
-                if (token) {
-                    setToken(token);
+                if (res.jwt) {
+                    setToken(res.jwt);
                     getMe();
-                }
-            });
+                    setMessage("OK");
+                } else if (res.error === "Bad credentials") setMessage("Incorrect username or password. Please try again!");
+                else setMessage(`An error occurred while processing your request.\n${res.error}\nPlease try again later!`);
+            })
+            .catch(error => {
+                setMessage("Server/network unavailable. Please try again later!");
+            })
     };
 
     const logout = () => {
@@ -61,8 +58,12 @@ const UserProvider = ({children}) => {
         setToken("");
     }
 
+    const reSetMessage = () => {
+        setMessage("");
+    }
+
     return (
-        <UserContext.Provider value={{user, login, logout}}>
+        <UserContext.Provider value={{user, message, reSetMessage, login, logout}}>
             {!loading && children}
         </UserContext.Provider>
     );
