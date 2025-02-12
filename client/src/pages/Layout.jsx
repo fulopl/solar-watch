@@ -1,24 +1,7 @@
 import {Link, Outlet} from "react-router-dom";
-import {useEffect, useState} from "react";
 import {useUser} from "../context/UserProvider";
 
-//import "./Layout.css";
-
-const fetchUserContext = (token) => {
-    return fetch("api/user/context",
-        {
-            method: "GET",
-            headers:
-                {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-        }
-    ).then(res => res.json());
-}
-
 const Layout = () => {
-    const [token, setToken] = useState();
     const {user} = useUser();
 
     console.log("layout. user=" + JSON.stringify(user))
