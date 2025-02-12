@@ -1,7 +1,7 @@
-import UserForm from "../Components/UserForm";
+import UserForm from "../components/UserForm";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import Loading from "../Components/Loading";
+import Loading from "../components/Loading";
 
 const registerUser = (user) => {
     return fetch("/api/user/register",

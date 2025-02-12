@@ -1,6 +1,6 @@
-import Loading from "../Components/Loading";
+import Loading from "../components/Loading";
 import {useState} from "react";
-import SunriseSunsetTimesForm from "../Components/SunriseSunsetTimesForm";
+import SunriseSunsetTimesForm from "../components/SunriseSunsetTimesForm";
 import {useNavigate} from "react-router-dom";
 
 const getSunriseSunsetTimes = (date, city) => {
@@ -10,7 +10,7 @@ const getSunriseSunsetTimes = (date, city) => {
             headers:
                 {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(res => res.json());
@@ -44,7 +44,7 @@ const SunriseSunsetTimesPage = () => {
                 else if (error.message === "Unknown location.") {
                     setErrorMsg(error.message)
                 }
-                else setErrorMsg("Unexpected error")
+                else setErrorMsg("Server/network unavailable. Please try again later!")
             })
             .finally(() => {
                 setLoading(false);
@@ -106,7 +106,7 @@ const SunriseSunsetTimesPage = () => {
                             checked={useLocalTime}
                             onChange={() => useLocalTime ? setUseLocalTime(false) : setUseLocalTime(true)}
                         />
-                        <span class="checkbox-container">Display in local time</span>
+                        <span className="checkbox-container">Display in local time</span>
                     </label>
                 </div>
                 <button type="button" onClick={() => setShowForm(true)}>

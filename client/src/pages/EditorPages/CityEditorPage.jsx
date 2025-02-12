@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import Loading from "../../Components/Loading/Loading";
-import CityTable from "../../Components/CityTable";
+import Loading from "../../components/Loading/Loading";
+import CityTable from "../../components/CityTable";
 import ServerMessagePage from "../ServerMessagePage";
 
 const fetchCities = () => {
@@ -9,7 +9,7 @@ const fetchCities = () => {
         headers:
             {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
     }).then(resp => resp.json())
 
@@ -21,14 +21,14 @@ const deleteCity = (id) => {
             headers:
                 {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => {
         if (resp.ok) return "OK"
         else return resp.text()
             .then(text => text)
-            .catch((error) => {
+            .catch(() => {
                 return resp.statusText
             })
     }).catch(error => error);

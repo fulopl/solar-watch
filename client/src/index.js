@@ -2,65 +2,56 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Layout from "./Pages/Layout";
-import ErrorPage from "./Pages/ErrorPage";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MainPage from "./Pages/MainPage";
-import RegistrationPage from "./Pages/RegistrationPage";
-import SignInPage from "./Pages/SignInPage";
-import SunriseSunsetTimesPage from "./Pages/SunriseSunsetTimesPage";
-import Token from "./Pages/Token";
-import UserEditorPage from "./Pages/EditorPages/UserEditorPage";
-import SignOutPage from "./Pages/SignOutPage";
-import SignInMessagePage from "./Pages/SignInMessagePage";
-import CityEditorPage from "./Pages/EditorPages/CityEditorPage";
-import TimeEditorPage from "./Pages/EditorPages/TimeEditorPage";
+import Layout from "./pages/Layout";
+import ErrorPage from "./pages/ErrorPage";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import MainPage from "./pages/MainPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import SignInPage from "./pages/SignInPage";
+import SunriseSunsetTimesPage from "./pages/SunriseSunsetTimesPage";
+import UserEditorPage from "./pages/EditorPages/UserEditorPage";
+import SignOutPage from "./pages/SignOutPage";
+import CityEditorPage from "./pages/EditorPages/CityEditorPage";
+import TimeEditorPage from "./pages/EditorPages/TimeEditorPage";
+import UserProvider from "./context/UserProvider";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />,
-        errorElement: <ErrorPage />,
+        element: <Layout/>,
+        errorElement: <ErrorPage/>,
         children: [
             {
                 path: "/",
-                element: <MainPage />,
+                element: <MainPage/>,
             },
             {
                 path: "/sunrise-sunset-times",
-                element: <SunriseSunsetTimesPage />,
+                element: <SunriseSunsetTimesPage/>,
             },
             {
                 path: "/sign-in",
-                element: <SignInPage />,
+                element: <SignInPage/>,
             },
             {
                 path: "/sign-out",
-                element: <SignOutPage />,
+                element: <SignOutPage/>,
             },
             {
                 path: "/register",
-                element: <RegistrationPage />,
-            },
-            {
-                path: "/token",
-                element: <Token />,
+                element: <RegistrationPage/>,
             },
             {
                 path: "/user-editor",
-                element: <UserEditorPage />,
+                element: <UserEditorPage/>,
             },
             {
                 path: "/city-editor",
-                element: <CityEditorPage />,
+                element: <CityEditorPage/>,
             },
             {
                 path: "/time-editor",
-                element: <TimeEditorPage />,
-            },
-            {
-                path: "/sign-in-message",
-                element: <SignInMessagePage />,
+                element: <TimeEditorPage/>,
             },
         ]
     }
@@ -69,7 +60,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router}/>
+        <UserProvider>
+            <RouterProvider router={router}/>
+        </UserProvider>
     </React.StrictMode>
 );
 

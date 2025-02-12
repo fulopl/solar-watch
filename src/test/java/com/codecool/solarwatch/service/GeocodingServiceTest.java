@@ -1,5 +1,6 @@
 package com.codecool.solarwatch.service;
 
+import com.codecool.solarwatch.errorhandling.InvalidApiKeyException;
 import com.codecool.solarwatch.model.City;
 import com.codecool.solarwatch.model.GeocodingPlace;
 import com.codecool.solarwatch.repository.CityRepository;
@@ -41,7 +42,7 @@ class GeocodingServiceTest {
     }
 
     @Test
-    void testGetPlaceFromOpenWeatherAPI_givenValidCityName_thenReturnCityEntity() {
+    void testGetPlaceFromOpenWeatherAPI_givenValidCityName_thenReturnCityEntity() throws InvalidApiKeyException {
         //arrange
 
         when(webClient.get()).thenReturn(requestHeadersUriSpec);

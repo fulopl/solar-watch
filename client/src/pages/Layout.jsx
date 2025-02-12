@@ -1,29 +1,8 @@
 import {Link, Outlet} from "react-router-dom";
-import {useEffect, useState} from "react";
-
-//import "./Layout.css";
-
-const fetchUserContext = (token) => {
-    return fetch("api/user/context",
-        {
-            method: "GET",
-            headers:
-                {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-        }
-    ).then(res => res.json());
-}
+import {useUser} from "../context/UserProvider";
 
 const Layout = () => {
-    // const [userName, setUserName] = useState("");
-    // const [authorities, setAuthorities] = useState("");
-    const [token, setToken] = useState();
-
-    useEffect(() => {
-        setToken(localStorage.getItem("jwt"));
-    }, [])
+    const {user} = useUser();
 
     return (
         <div className="main">
@@ -36,34 +15,27 @@ const Layout = () => {
                         <Link to="/sunrise-sunset-times">Sunrise & Sunset Times</Link>
                     </li>
                     {
-                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
+                        user?.roles.includes("ROLE_ADMIN") ?
                             <li>
                                 <Link to="/user-editor">Edit users</Link>
                             </li>
                             : <></>
                     }
                     {
-                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
+                        user?.roles.includes("ROLE_ADMIN") ?
                             <li>
                                 <Link to="/city-editor">Edit cities</Link>
                             </li>
                             : <></>
                     }
                     {
-                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
+                        user?.roles.includes("ROLE_ADMIN") ?
                             <li>
                                 <Link to="/time-editor">Edit times</Link>
                             </li>
                             : <></>
                     }
-                    {
-                        localStorage.getItem("roles")?.includes("ROLE_ADMIN") ?
-                            <li>
-                                <Link to="/token">Token</Link>
-                            </li>
-                            : <></>
-                    }
-                    {(token !== "null") ?
+                    {(user !== null) ?
                         <li>
                             <Link to="/sign-out">Sign out</Link>
                         </li>

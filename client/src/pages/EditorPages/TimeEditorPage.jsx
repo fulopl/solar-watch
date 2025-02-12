@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import Loading from "../../Components/Loading/Loading";
-import TimeTable from "../../Components/TimeTable";
+import Loading from "../../components/Loading/Loading";
+import TimeTable from "../../components/TimeTable";
 import ServerMessagePage from "../ServerMessagePage";
 
 const fetchTimes = () => {
@@ -9,7 +9,7 @@ const fetchTimes = () => {
         headers:
             {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
     }).then(resp => resp.json())
 }
@@ -20,14 +20,14 @@ const deleteTime = (id) => {
             headers:
                 {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => {
         if (resp.ok) return "OK"
         else return resp.text()
             .then(text => text)
-            .catch((error) => {
+            .catch(() => {
                 return resp.statusText
             })
     }).catch(error => error);

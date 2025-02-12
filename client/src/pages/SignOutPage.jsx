@@ -1,14 +1,12 @@
 import {useNavigate} from "react-router-dom";
+import {useUser} from "../context/UserProvider";
 
 export default function SignOutPage() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const {reSetMessage, logout} = useUser();
 
-    if (localStorage.getItem("jwt") !== "null") {
-        localStorage.setItem("jwt", null);
-        localStorage.setItem("userName", null);
-        localStorage.setItem("roles", null);
-        window.location.reload();
-    }
+    logout();
+    reSetMessage();
 
     return <>
         <div className="container-main">
