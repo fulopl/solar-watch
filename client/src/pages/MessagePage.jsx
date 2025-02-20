@@ -1,4 +1,4 @@
-const ServerMessagePage = ({message, onOk}) => {
+const MessagePage = ({message, onOk}) => {
 
     return (
         <div className="container-main">
@@ -12,4 +12,4 @@ const ServerMessagePage = ({message, onOk}) => {
     );
 }
 
-export default ServerMessagePage;
+export default MessagePage;
