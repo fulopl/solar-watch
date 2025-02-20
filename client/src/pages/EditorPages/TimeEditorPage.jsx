@@ -1,15 +1,14 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Loading from "../../components/Loading/Loading";
 import TimeTable from "../../components/TimeTable";
-import ServerMessagePage from "../ServerMessagePage";
+import MessagePage from "../MessagePage";
+import useSWR from "swr";
 
-const fetchTimes = () => {
-    return fetch("api/time", {
-        method: "GET",
+const fetchTimes = (url) => {
+    return fetch(url, {
         headers:
             {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
+                authorization: `Bearer ${localStorage.getItem("token")}`
             }
     }).then(resp => resp.json())
 }
@@ -19,8 +18,7 @@ const deleteTime = (id) => {
             method: "DELETE",
             headers:
                 {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                    authorization: `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => {
@@ -34,36 +32,32 @@ const deleteTime = (id) => {
 }
 
 const TimeEditorPage = () => {
-    const [isLoading, setLoading] = useState(true);
-    const [times, setTimes] = useState([]);
-    const [serverMsg, setServerMsg] = useState("");
-
-    useEffect(() => {
-        setLoading(true);
-        fetchTimes().then(times => {
-            setLoading(false);
-            setTimes(times);
-        })
-    }, [serverMsg])
+    const [isLoading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
+    const {
+        data: times,
+        isLoading: isLoadingGetTimes,
+        mutate
+    } = useSWR("api/time", fetchTimes)
 
     const handleDelete = (id) => {
         setLoading(true);
         deleteTime(id).then((response) => {
             setLoading(false);
-            if (response === "OK") setTimes(times.filter(time => time.id !== id))
-            else setServerMsg(response);
+            if (response === "OK") mutate();
+            else setMessage(response);
         });
     }
 
     const handleOk = () => {
-        setServerMsg("");
+        setMessage("");
     }
 
 
-    if (isLoading) return <Loading/>;
+    if (isLoading || isLoadingGetTimes) return <Loading/>;
 
-    if (serverMsg) return <ServerMessagePage message={serverMsg}
-                                             onOk={handleOk}
+    if (message) return <MessagePage message={message}
+                                     onOk={handleOk}
     />;
 
     return <TimeTable times={times}

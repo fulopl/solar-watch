@@ -1,14 +1,13 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Loading from "../../components/Loading/Loading";
 import UserTable from "../../components/UserTable";
+import useSWR from "swr";
 
-const fetchUsers = () => {
-    return fetch("api/user", {
-        method: "GET",
+const fetchUsers = (url) => {
+    return fetch(url, {
         headers:
             {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
+                authorization: `Bearer ${localStorage.getItem("token")}`
             }
     }).then(resp => resp.json())
 }
@@ -18,8 +17,7 @@ const deleteUser = (id) => {
             method: "DELETE",
             headers:
                 {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                    authorization: `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => resp.statusText);
@@ -32,10 +30,7 @@ const addAdmin = (id) => {
                 "PATCH",
             headers:
                 {
-                    'Content-Type':
-                        'application/json',
-                    'Authorization':
-                        `Bearer ${localStorage.getItem("token")}`
+                    authorization: `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => resp.statusText)
@@ -47,32 +42,25 @@ const removeAdmin = (id) => {
                 "PATCH",
             headers:
                 {
-                    'Content-Type':
-                        'application/json',
-                    'Authorization':
-                        `Bearer ${localStorage.getItem("token")}`
+                    authorization: `Bearer ${localStorage.getItem("token")}`
                 }
         }
     ).then(resp => resp.statusText)
 }
 
 const UserEditorPage = () => {
-    const [isLoading, setLoading] = useState(true);
-    const [users, setUsers] = useState([])
-
-    useEffect(() => {
-        setLoading(true);
-        fetchUsers().then(users => {
-            setLoading(false);
-            setUsers(users);
-        })
-    }, [])
+    const [isLoading, setLoading] = useState(false);
+    const {
+        data: users,
+        isLoading: isLoadingGetUsers,
+        mutate
+    } = useSWR("api/user", fetchUsers);
 
     const handleDelete = (id) => {
         setLoading(true);
         deleteUser(id).then((status) => {
             setLoading(false);
-            if (status === "OK") setUsers(users.filter(user => user.id !== id))
+            if (status === "OK") mutate();
             else alert(status);
         });
     }
@@ -81,11 +69,8 @@ const UserEditorPage = () => {
         setLoading(true);
         addAdmin(id).then((status) => {
             setLoading(false);
-            if (status === "OK") {
-                const user = users.find(user => user.id === id);
-                user.roles.push("ROLE_ADMIN");
-                setUsers(users);
-            } else alert(status);
+            if (status === "OK") mutate();
+            else alert(status);
         })
     }
 
@@ -93,15 +78,12 @@ const UserEditorPage = () => {
         setLoading(true);
         removeAdmin(id).then((status) => {
             setLoading(false);
-            if (status === "OK") {
-                const user = users.find(user => user.id === id);
-                user.roles.splice(user.roles.indexOf("ROLE_ADMIN"), 1);
-                setUsers(users);
-            } else alert(status);
+            if (status === "OK") mutate();
+            else alert(status);
         })
     }
 
-    if (isLoading) return <Loading/>;
+    if (isLoading || isLoadingGetUsers) return <Loading/>;
 
     return <UserTable users={users}
                       onDelete={handleDelete}

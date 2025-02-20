@@ -1,14 +1,13 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Loading from "../../components/Loading/Loading";
 import CityTable from "../../components/CityTable";
-import ServerMessagePage from "../ServerMessagePage";
+import MessagePage from "../MessagePage";
+import useSWR from "swr";
 
-const fetchCities = () => {
-    return fetch("api/city", {
-        method: "GET",
+const fetchCities = (url) => {
+    return fetch(url, {
         headers:
             {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
     }).then(resp => resp.json())
@@ -20,7 +19,6 @@ const deleteCity = (id) => {
             method: "DELETE",
             headers:
                 {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
         }
@@ -35,23 +33,19 @@ const deleteCity = (id) => {
 }
 
 const CityEditorPage = () => {
-    const [isLoading, setLoading] = useState(true);
-    const [cities, setCities] = useState([]);
+    const [isFetchingDeleteCity, setFetchingDeleteCity] = useState(false);
     const [serverMsg, setServerMsg] = useState("");
-
-    useEffect(() => {
-        setLoading(true);
-        fetchCities().then(cities => {
-            setLoading(false);
-            setCities(cities);
-        })
-    }, [serverMsg])
+    const {
+        data: cities,
+        isLoading: isFetchingGetCities,
+        mutate
+    } = useSWR("api/city", fetchCities);
 
     const handleDelete = (id) => {
-        setLoading(true);
+        setFetchingDeleteCity(true);
         deleteCity(id).then((response) => {
-            setLoading(false);
-            if (response === "OK") setCities(cities.filter(city => city.id !== id))
+            setFetchingDeleteCity(false);
+            if (response === "OK") mutate();
             else setServerMsg(response);
         });
     }
@@ -61,10 +55,10 @@ const CityEditorPage = () => {
     }
 
 
-    if (isLoading) return <Loading/>;
+    if (isFetchingGetCities || isFetchingDeleteCity) return <Loading/>;
 
-    if (serverMsg) return <ServerMessagePage message={serverMsg}
-                                             onOk={handleOk}
+    if (serverMsg) return <MessagePage message={serverMsg}
+                                       onOk={handleOk}
     />;
 
     return <CityTable cities={cities}
